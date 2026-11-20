@@ -10,10 +10,10 @@ Tidak ada aplikasi Java, PHP, atau antarmuka grafis. Semua pekerjaan dijalankan
 lewat klien SQL, dan semua bukti berupa teks keluaran perintah. Aturan ini dipilih
 supaya penilaian terfokus pada perancangan dan SQL, bukan pada kode program.
 
-Paket ini memuat dokumen dan kerangka SQL. Folder `sql/` berisi scaffold berkomentar
-tanpa pernyataan aktif. Berkas kerja lengkap (`tools/`, `bukti/`, `laporan/`,
-`docs/ai/`, dan solusi SQL) berada di repositori kerja kelompok dan dipakai
-bersama dokumen di sini.
+Paket ini memuat dokumen, kerangka SQL, dan runner `tools/run-sql.sh`. Folder
+`sql/` berisi scaffold berkomentar tanpa pernyataan aktif. Berkas kerja lengkap
+(`reset-db.sh`, `verify.sh`, `bukti/`, `laporan/`, `docs/ai/`, dan solusi SQL)
+berada di repositori kerja kelompok dan dipakai bersama dokumen di sini.
 
 ## Daftar Isi
 
@@ -114,6 +114,7 @@ Hasilnya `panduan/utama.pdf` dan `laporan/template-laporan.pdf`.
 | `sql/05_keamanan.sql` | Tiga pengguna dan hak aksesnya |
 | `sql/06_indeks.sql` | Dua indeks beserta EXPLAIN sebelum dan sesudah |
 | `sql/07_pengujian.sql` | Sepuluh skenario pengujian |
+| `tools/run-sql.sh` | Menjalankan satu berkas SQL ke container MySQL atau MySQL host |
 | `tools/reset-db.sh` | Mengembalikan database dari nol lalu memuat 01 sampai 06 |
 | `tools/verify.sh` | Memeriksa isi dan perilaku database, 34 pemeriksaan |
 | `tools/demo-isolasi.sh` | Membuktikan tingkat isolasi dan deadlock |

@@ -5,7 +5,7 @@ Ada dua repo dengan tugas berbeda.
 | Repo | Visibilitas | Isi | Dipakai oleh |
 |---|---|---|---|
 | [Panduan-UAS-SQL-Klinik](https://github.com/yayayapluto/Panduan-UAS-SQL-Klinik) | Privat | panduan lengkap: README, docs, dan scaffold SQL | pemilik, untuk diunduh lalu dikirim ke tim |
-| [Projek-UAS-SQL-Klinik](https://github.com/yayayapluto/Projek-UAS-SQL-Klinik) | Publik | repo kerja: README dan scaffold SQL di `sql/` | tim, tempat push hasil kerja |
+| [Projek-UAS-SQL-Klinik](https://github.com/yayayapluto/Projek-UAS-SQL-Klinik) | Publik | repo kerja: README, scaffold SQL, dan runner SQL di `tools/` | tim, tempat push hasil kerja |
 
 Repo panduan tetap privat. Tim tidak perlu akses ke sana. Mereka menerima
 salinan ZIP dari pemilik dan memakai repo publik untuk mengirim pekerjaan.
@@ -72,6 +72,25 @@ Kalau kosong, isi sekali:
 git config --global user.name "Nama Kamu"
 git config --global user.email "email@contoh.com"
 ```
+
+## Menjalankan Satu Berkas SQL
+
+Setelah database siap, uji berkas yang sedang dikerjakan tanpa memuat ulang
+semua skrip:
+
+```bash
+bash tools/run-sql.sh 02
+```
+
+Di CMD atau PowerShell:
+
+```text
+tools\run-sql.cmd 02
+```
+
+Runner memilih container `kbd-mysql`, lalu container `mysql`, lalu MySQL host
+seperti Laragon atau XAMPP. Pakai `--name <container>` untuk container lain dan
+`--host` untuk memaksa MySQL host. Berkas `07` otomatis memakai `--force`.
 
 ## Alur Kerja Anggota
 

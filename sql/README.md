@@ -17,9 +17,12 @@ Paket ini adalah kerangka kerja SQL untuk tim baru yang mengerjakan proyek Klini
 
 ## Cara Pakai
 
-Salin folder `sql/` ini ke root repo baru yang masih kosong, lalu isi satu per satu sesuai urutan kerja. Berkas README ini boleh ikut disalin sebagai catatan kerja.
+Folder `sql/` di ZIP ini sama dengan folder `sql/` di repo publik. Kerjakan
+berkas di clone repo publik, bukan di dalam hasil ekstrak ZIP. ZIP dipakai untuk
+membaca panduan dan kontrak.
 
-Jangan menyalin paket ini ke repo yang sudah berisi solusi. Berkas dengan nama sama akan menimpa pekerjaan yang sudah ada dan menghapus hasil yang benar.
+Jangan menyalin folder ZIP ke dalam clone repo. Folder `sql/` yang sudah ada di
+repo itu yang dipakai; menyalin ulang dapat menimpa pekerjaan anggota lain.
 
 ## Urutan Kerja
 
@@ -42,11 +45,41 @@ Berkas 03 sampai 06 bergantung pada 01 dan 02. View dan trigger membaca tabel da
 
 Tipe data dan detail tipe tidak disalin di scaffold. Rujuk [`../docs/PRD.md`](../docs/PRD.md) untuk kontrak lengkap.
 
+## Menjalankan Satu Berkas SQL
+
+Runner `tools/run-sql.sh` menjalankan satu berkas tanpa reset. Cocok untuk
+menguji berkas yang sedang dikerjakan.
+
+```bash
+bash tools/run-sql.sh 02
+bash tools/run-sql.sh 7
+```
+
+Di CMD atau PowerShell:
+
+```text
+tools\run-sql.cmd 02
+```
+
+Runner mencari container `kbd-mysql`, lalu container `mysql`, lalu MySQL host
+seperti Laragon atau XAMPP. Opsi yang tersedia:
+
+```text
+--name <container>   paksa container tertentu
+--host               lewati container, langsung ke MySQL host
+```
+
+Kata sandi container default `kbd`; MySQL host default kosong. Set `KBD_PW` bila
+berbeda. Port host bisa diganti lewat `KBD_PORT`. Berkas `07` otomatis memakai
+`--force`.
+
 ## Tool Pendukung
 
-Paket ini belum menyertakan `tools/reset-db.sh`, `tools/verify.sh`, dan `tools/demo-isolasi.sh`. Ketiganya ditulis P5 pada Fase F3 mengikuti [`../docs/panduan-P5-pengujian-rilis.md`](../docs/panduan-P5-pengujian-rilis.md).
-
-Perintah pemeriksaan di dalam scaffold memakai path repo kerja seperti `bash tools/reset-db.sh` dan `bash tools/verify.sh`. Perintah itu baru berguna setelah ketiga tool tersebut tersedia.
+Paket ini sudah menyertakan `tools/run-sql.sh` dan pembungkus
+`tools/run-sql.cmd` untuk CMD/PowerShell. Tool `tools/reset-db.sh`,
+`tools/verify.sh`, dan `tools/demo-isolasi.sh` belum ada; ketiganya ditulis P5
+pada Fase F3 mengikuti
+[`../docs/panduan-P5-pengujian-rilis.md`](../docs/panduan-P5-pengujian-rilis.md).
 
 ## Kriteria Selesai
 
