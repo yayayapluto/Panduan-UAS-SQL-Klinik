@@ -40,7 +40,7 @@ Rincian angka, nama kolom, dan kriteria penerimaan ada di [PRD](PRD.md).
 | Docker Desktop | Menjalankan MySQL 8.0 tanpa memasang server. Cek dengan `docker --version`. |
 | MySQL Workbench | Klien SQL untuk memeriksa tabel dan menjalankan query. |
 | Bash | Git Bash atau WSL untuk menjalankan skrip `tools/*.sh`. |
-| MiKTeX | Dipakai Anggota 1 untuk laporan dan Anggota 6 untuk PDF panduan. Bisa diganti Overleaf. |
+| MiKTeX | Dipakai Agit untuk laporan dan Rassya untuk PDF panduan. Bisa diganti Overleaf. |
 
 Tidak ada dependensi bahasa pemrograman. Yang dijalankan hanya klien `mysql` di
 dalam container, `pdflatex` untuk PDF, dan skrip shell untuk pemeriksaan.
@@ -83,25 +83,25 @@ berbeda, sedangkan `tools/` dan `bukti/` dirawat bersama.
 ├── .gitignore
 ├── Guidebook KBD UAS.pdf                  (materi dan ketentuan tugas)
 ├── sql/
-│   ├── 00-kesepakatan.sql                 (Anggota 1)
-│   ├── 01_struktur.sql                    (Anggota 3)
-│   ├── 02_data.sql                        (Anggota 2)
-│   ├── 03_view_trigger.sql                (Anggota 4)
-│   ├── 04_prosedur.sql                    (Anggota 1)
-│   ├── 05_keamanan.sql                    (Anggota 5)
-│   ├── 06_indeks.sql                      (Anggota 4)
-│   └── 07_pengujian.sql                   (Anggota 6)
+│   ├── 00-kesepakatan.sql                 (Agit)
+│   ├── 01_struktur.sql                    (Farras)
+│   ├── 02_data.sql                        (Dapa)
+│   ├── 03_view_trigger.sql                (Kenzie)
+│   ├── 04_prosedur.sql                    (Agit)
+│   ├── 05_keamanan.sql                    (Kafka)
+│   ├── 06_indeks.sql                      (Kenzie)
+│   └── 07_pengujian.sql                   (Rassya)
 ├── tools/
-│   ├── reset-db.sh                        (Anggota 6, dipakai semua)
-│   ├── verify.sh                          (Anggota 6)
-│   ├── demo-isolasi.sh                    (Anggota 6)
-│   └── build.sh                           (Anggota 6)
+│   ├── reset-db.sh                        (Rassya, dipakai semua)
+│   ├── verify.sh                          (Rassya)
+│   ├── demo-isolasi.sh                    (Rassya)
+│   └── build.sh                           (Rassya)
 ├── bukti/
 │   ├── 00-reset.txt
 │   ├── 05_keamanan.txt
 │   ├── 06_indeks.txt
 │   ├── 07_pengujian.txt
-│   ├── 10-kueri.txt                       (Anggota 5)
+│   ├── 10-kueri.txt                       (Kafka)
 │   ├── isolasi.txt
 │   ├── kueri-panduan.sql
 │   └── verify.txt
@@ -123,12 +123,12 @@ berbeda, sedangkan `tools/` dan `bukti/` dirawat bersama.
 
 | Berkas atau bagian | Pemilik | Isi |
 |---|---|---|
-| `sql/00-kesepakatan.sql`, `sql/04_prosedur.sql`, `bukti/`, Bab I dan III laporan | Anggota 1 | Kesepakatan awal, dua prosedur, bukti, dan dokumen akhir |
-| `sql/02_data.sql`, dokumentasi normalisasi 1NF sampai BCNF, tangkapan layar query dasar | Anggota 2 | Data contoh dan bukti normalisasi |
-| `sql/01_struktur.sql`, tabel transformasi, skema relasional, aljabar relasional | Anggota 3 | Skema fisik dan penjelasan transformasi |
-| `sql/03_view_trigger.sql`, `sql/06_indeks.sql` | Anggota 4 | Dua view, empat trigger, dua indeks dan `EXPLAIN` |
-| `sql/05_keamanan.sql`, sepuluh query Q1–Q10, `bukti/10-kueri.txt` | Anggota 5 | Tiga pengguna, bukti `ERROR 1142`, sepuluh query |
-| `sql/07_pengujian.sql`, `tools/`, `bukti/` pendamping uji, PDF panduan | Anggota 6 | Sepuluh skenario uji, skrip bantu, bukti uji, dan rilis |
+| `sql/00-kesepakatan.sql`, `sql/04_prosedur.sql`, `bukti/`, Bab I dan III laporan | Agit | Kesepakatan awal, dua prosedur, bukti, dan dokumen akhir |
+| `sql/02_data.sql`, dokumentasi normalisasi 1NF sampai BCNF, tangkapan layar query dasar | Dapa | Data contoh dan bukti normalisasi |
+| `sql/01_struktur.sql`, tabel transformasi, skema relasional, aljabar relasional | Farras | Skema fisik dan penjelasan transformasi |
+| `sql/03_view_trigger.sql`, `sql/06_indeks.sql` | Kenzie | Dua view, empat trigger, dua indeks dan `EXPLAIN` |
+| `sql/05_keamanan.sql`, sepuluh query Q1–Q10, `bukti/10-kueri.txt` | Kafka | Tiga pengguna, bukti `ERROR 1142`, sepuluh query |
+| `sql/07_pengujian.sql`, `tools/`, `bukti/` pendamping uji, PDF panduan | Rassya | Sepuluh skenario uji, skrip bantu, bukti uji, dan rilis |
 
 Berkas bersama yang tidak dimiliki satu orang: `README.md`, `docs/ai/`, dan
 `.gitignore`. Perubahannya disepakati di grup sebelum dikirim.

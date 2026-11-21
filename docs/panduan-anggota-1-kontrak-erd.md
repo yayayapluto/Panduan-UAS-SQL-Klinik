@@ -1,11 +1,11 @@
-# Panduan Anggota 1: Kontrak, ERD, dan Prosedur
+# Panduan Agit: Kontrak, ERD, dan Prosedur
 
 ## Peran
 
-Kamu adalah Anggota 1. Tiga pekerjaan besarmu: menetapkan bahan konseptual
+Kamu adalah Agit. Tiga pekerjaan besarmu: menetapkan bahan konseptual
 sebelum tabel dibuat, menggambar diagram relasi entitas, dan menulis bagian
 laporan yang menjelaskan proyek dari luar. Kamu juga pemeriksa terakhir daftar
-periksa buatan Anggota 6.
+periksa buatan Rassya.
 
 Pekerjaanmu menentukan pekerjaan lima orang lain. Kalau nama entitas atau
 kardinalitas berubah setelah mereka mulai menulis SQL, seluruh berkas harus
@@ -18,7 +18,7 @@ kesepakatan di grup.
 |---|---|
 | `sql/00-kesepakatan.sql` | Kesepakatan nama objek, aturan bisnis, kardinalitas, dan kebutuhan informasi |
 | `sql/04_prosedur.sql` | Dua stored procedure: `sp_daftar_kunjungan` dan `sp_bayar_kunjungan` |
-| `bukti/` | Keluaran nyata setiap skrip, dirapikan bersama Anggota 6 |
+| `bukti/` | Keluaran nyata setiap skrip, dirapikan bersama Rassya |
 | `panduan/gambar/erd.tex` atau gambar draw.io | Diagram relasi entitas |
 | `laporan/template-laporan.tex` bagian Bab I | Deskripsi basis data, studi kasus, ruang lingkup, pembagian peran |
 | `laporan/template-laporan.tex` bagian Bab III | Kesimpulan dan saran |
@@ -27,13 +27,13 @@ kesepakatan di grup.
 
 Berkas SQL milikmu ada dua: `sql/00-kesepakatan.sql` dan `sql/04_prosedur.sql`;
 struktur dan data tetap milik anggota lain. Nama tabel dan kolom yang kamu
-tetapkan dipakai oleh Anggota 2 sampai Anggota 5, jadi perubahan nama harus
+tetapkan dipakai oleh Dapa sampai Kafka, jadi perubahan nama harus
 lewat kesepakatan dengan mereka.
 
 ## Konteks untuk AI
 
 Proyek ini adalah basis data klinik pratama dengan MySQL 8.0 dan tepat sebelas
-tabel. Sebagai Anggota 1 kamu menulis `sql/00-kesepakatan.sql`,
+tabel. Sebagai Agit kamu menulis `sql/00-kesepakatan.sql`,
 `sql/04_prosedur.sql`, studi kasus, kamus data, ERD, dan Bab I serta Bab III
 laporan. Kamu tidak menyentuh `sql/01_struktur.sql` sampai
 `sql/07_pengujian.sql` selain berkas 04, dan tidak mengubah nama yang sudah
@@ -124,7 +124,7 @@ kamus data. Setiap relasi diberi nama kerja, misalnya "poli memiliki dokter" dan
 | kunjungan ditagih pembayaran | 1 : 0..1 | id_kunjungan unik di pembayaran |
 | rekam medis diresepkan obat | M : N | tabel penghubung detail_resep |
 
-Tabel ini menjadi bahan Bab II dan dipakai Anggota 3 saat menulis skema. Jika Anggota 3
+Tabel ini menjadi bahan Bab II dan dipakai Farras saat menulis skema. Jika Farras
 menemukan kardinalitas yang tidak cocok dengan SQL, kesepakatan diubah lebih
 dulu, bukan SQL-nya diam-diam.
 
@@ -212,7 +212,7 @@ tidak ada baris bertotal nol.
 - **Atomicity.** Total dihitung dan pembayaran disimpan dalam satu transaksi.
 - **Consistency.** Pemeriksaan pembayaran ganda berjalan sebelum insert.
 - **Isolation.** Sesi lain tidak melihat baris sebelum `COMMIT`; demo tingkat
-  isolasi dijalankan Anggota 6 lewat `tools/demo-isolasi.sh`.
+  isolasi dijalankan Rassya lewat `tools/demo-isolasi.sh`.
 - **Durability.** Setelah `COMMIT`, baris tetap ada walaupun koneksi putus.
 
 ## Milestone 4: Bab I dan Bab III Laporan
@@ -250,7 +250,7 @@ Materi minggu 15 dinilai lewat pemetaan, bukan pembangunan server. Tulis:
 
 1. Bandingkan kamus data dengan `sql/01_struktur.sql`. Nama dan tipe harus sama.
 2. Bandingkan ERD dengan tabel kardinalitas. Tidak boleh ada relasi yang hilang.
-3. Periksa daftar periksa buatan Anggota 6. Setiap butir harus punya berkas
+3. Periksa daftar periksa buatan Rassya. Setiap butir harus punya berkas
    bukti, bukan hanya tanda centang.
 4. Cocokkan sampul dan tabel peran laporan dengan pembagian tugas enam anggota.
 5. Perbarui Bab I dan Bab III setelah angka dari `bukti/` final.
@@ -269,7 +269,7 @@ Materi minggu 15 dinilai lewat pemetaan, bukan pembangunan server. Tulis:
 - [ ] Dua prosedur di `sql/04_prosedur.sql` memakai transaksi dan `EXIT HANDLER`;
       pembayaran kedua ditolak.
 - [ ] Sampul dan tabel peran laporan memuat keenam anggota.
-- [ ] Daftar periksa Anggota 6 diperiksa dengan bukti.
+- [ ] Daftar periksa Rassya diperiksa dengan bukti.
 
 ## Kesalahan yang Sering Terjadi
 
@@ -286,7 +286,7 @@ Materi minggu 15 dinilai lewat pemetaan, bukan pembangunan server. Tulis:
 ## Prompt Siap Tempel
 
 ```text
-Saya Anggota 1 pada proyek basis data klinik pratama dengan MySQL 8.0 dan
+Saya Agit pada proyek basis data klinik pratama dengan MySQL 8.0 dan
 sebelas tabel. Saya sedang menyusun kamus data dan ERD. Berikut aturan umum
 proyek dan berkas sql/01_struktur.sql.
 
@@ -297,7 +297,7 @@ menambah tabel atau kolom baru, dan jangan mengubah nama yang sudah ada.
 
 ## Definition of Done
 
-Fase Anggota 1 selesai jika kamus data, ERD, dan tabel kardinalitas disepakati
+Fase Agit selesai jika kamus data, ERD, dan tabel kardinalitas disepakati
 sebelum `skema-v1`; `sql/00-kesepakatan.sql` dan `sql/04_prosedur.sql` sudah
 dijalankan; Bab I dan Bab III terisi dengan angka yang cocok dengan `bukti/`;
 subbab NoSQL ada; dan PDF laporan terbangun dengan sampul serta tabel peran enam

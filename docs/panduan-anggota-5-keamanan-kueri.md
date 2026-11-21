@@ -1,4 +1,4 @@
-# Panduan Anggota 5: Hak Akses dan Sepuluh Query
+# Panduan Kafka: Hak Akses dan Sepuluh Query
 
 ## Ringkasan
 
@@ -7,7 +7,7 @@ beserta berkas hasilnya `bukti/10-kueri.txt`. Pekerjaanmu membuktikan dua hal
 yang tidak terlihat dari isi tabel: siapa yang boleh menulis apa, dan apakah
 pertanyaan pada PRD benar-benar bisa dijawab SQL.
 
-Kamu juga pemeriksa kedua skema buatan Anggota 3. Nama tabel, kolom, dan
+Kamu juga pemeriksa kedua skema buatan Farras. Nama tabel, kolom, dan
 constraint pada `sql/01_struktur.sql` harus sudah beku lewat tag `skema-v1`
 sebelum hak akses ditulis.
 
@@ -21,8 +21,8 @@ sebelum hak akses ditulis.
 | `bukti/05_keamanan.txt` | Keluaran skrip keamanan dan penolakan 1142 |
 | Bahan Bab II | Tabel hak akses dan tabel hasil query |
 
-Berkas `sql/06_indeks.sql` milik Anggota 4, sedangkan `sql/07_pengujian.sql` dan
-`tools/` milik Anggota 6. Kalau pengujian menemukan hak akses atau query yang
+Berkas `sql/06_indeks.sql` milik Kenzie, sedangkan `sql/07_pengujian.sql` dan
+`tools/` milik Rassya. Kalau pengujian menemukan hak akses atau query yang
 salah, perbaiki berkas 05 dan kueri milikmu, bukan skrip pengujiannya.
 
 ## Prasyarat
@@ -117,7 +117,7 @@ jumlah baris sesuai tabel acuan di atas.
 
 Satu angka yang berubah berarti ada dua berkas yang harus diperbarui sekaligus:
 `bukti/10-kueri.txt` dan tabel hasil di laporan. Jangan mengubah data contoh agar
-satu query terlihat lebih rapi; data contoh milik Anggota 2.
+satu query terlihat lebih rapi; data contoh milik Dapa.
 
 ## Pemeriksaan Lulus
 
@@ -152,5 +152,5 @@ satu query terlihat lebih rapi; data contoh milik Anggota 2.
 - [ ] `bukti/10-kueri.txt` cocok dengan tabel acuan PRD §7.
 - [ ] `verify.sh` bagian F lulus.
 - [ ] Bahan Bab II memuat tabel hak akses dan tabel hasil query.
-- [ ] Anggota 6 menerima berkas ini dan menjalankan ulang `verify.sh` dari salinan
+- [ ] Rassya menerima berkas ini dan menjalankan ulang `verify.sh` dari salinan
       bersih.
