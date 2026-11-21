@@ -34,12 +34,12 @@ Tangkapan layar boleh ditambahkan, tetapi tidak menggantikan keluaran teks.
 
 | Anggota | Peran | Berkas dan bagian milik | Panduan |
 |---|---|---|---|
-| Agit | Studi kasus, kontrak, prosedur, laporan | Studi kasus, delapan kebutuhan informasi, kamus data, ERD, `sql/00-kesepakatan.sql`, `sql/04_prosedur.sql` (prosedur `sp_daftar_kunjungan` dan `sp_bayar_kunjungan`), `bukti/`, Bab I dan III laporan, sampul, tabel peran | [Panduan 1](panduan-anggota-1-kontrak-erd.md) |
+| Agit | Studi kasus, kontrak, prosedur, laporan | Studi kasus, delapan kebutuhan informasi, kamus data, ERD, `sql/00-kesepakatan.sql`, `sql/04_prosedur.sql` (prosedur `sp_daftar_kunjungan` dan `sp_bayar_kunjungan`), `bukti/`, Bab I dan III laporan | [Panduan 1](panduan-anggota-1-kontrak-erd.md) |
 | Dapa | Normalisasi dan data | `sql/02_data.sql`, dokumentasi 1NF sampai BCNF, tangkapan layar query dasar, Bab normalisasi laporan | [Panduan 2](panduan-anggota-2-normalisasi-data.md) |
 | Farras | Struktur dan transformasi | `sql/01_struktur.sql`, tabel transformasi, skema relasional, aljabar relasional, Bab skema laporan | [Panduan 3](panduan-anggota-3-struktur-transformasi.md) |
 | Kenzie | View, trigger, dan indeks | `sql/03_view_trigger.sql`, `sql/06_indeks.sql`, Bab view/trigger/indeks laporan | [Panduan 4](panduan-anggota-4-view-trigger-prosedur.md) |
 | Kafka | Keamanan dan query | `sql/05_keamanan.sql`, sepuluh query Q1 sampai Q10, `bukti/10-kueri.txt`, Bab keamanan dan query laporan | [Panduan 5](panduan-anggota-5-keamanan-kueri.md) |
-| Rassya | Pengujian dan rilis | `sql/07_pengujian.sql`, Bab pengujian laporan, `bukti/` pendamping uji, checklist, PDF | [Panduan 6](panduan-anggota-6-pengujian-rilis.md) |
+| Rassya | Pengujian dan rilis | `sql/07_pengujian.sql`, Bab pengujian laporan, `bukti/` pendamping uji, rakit laporan dan sampul, checklist, PDF | [Panduan 6](panduan-anggota-6-pengujian-rilis.md) |
 
 Setiap anggota menulis berkas SQL-nya sendiri dan bagian laporan untuk modul itu; Agit menggabungkan. Agit dan Farras paling siap menulis SQL, karena keduanya memegang
 keputusan skema dan kontrak awal. Dapa dan Rassya boleh berasal dari
