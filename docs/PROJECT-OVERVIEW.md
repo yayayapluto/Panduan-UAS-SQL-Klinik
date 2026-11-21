@@ -87,9 +87,9 @@ berbeda, sedangkan `tools/` dan `bukti/` dirawat bersama.
 │   ├── 01_struktur.sql                    (Anggota 3)
 │   ├── 02_data.sql                        (Anggota 2)
 │   ├── 03_view_trigger.sql                (Anggota 4)
-│   ├── 04_prosedur.sql                    (Anggota 4)
+│   ├── 04_prosedur.sql                    (Anggota 1)
 │   ├── 05_keamanan.sql                    (Anggota 5)
-│   ├── 06_indeks.sql                      (Anggota 5)
+│   ├── 06_indeks.sql                      (Anggota 4)
 │   └── 07_pengujian.sql                   (Anggota 6)
 ├── tools/
 │   ├── reset-db.sh                        (Anggota 6, dipakai semua)
@@ -101,7 +101,7 @@ berbeda, sedangkan `tools/` dan `bukti/` dirawat bersama.
 │   ├── 05_keamanan.txt
 │   ├── 06_indeks.txt
 │   ├── 07_pengujian.txt
-│   ├── 10-kueri.txt
+│   ├── 10-kueri.txt                       (Anggota 5)
 │   ├── isolasi.txt
 │   ├── kueri-panduan.sql
 │   └── verify.txt
@@ -123,11 +123,11 @@ berbeda, sedangkan `tools/` dan `bukti/` dirawat bersama.
 
 | Berkas atau bagian | Pemilik | Isi |
 |---|---|---|
-| Studi kasus, kamus data, ERD, `sql/00-kesepakatan.sql`, `bukti/`, Bab I dan III laporan | Anggota 1 | Bahan konseptual, kesepakatan awal, dan dokumen akhir |
+| `sql/00-kesepakatan.sql`, `sql/04_prosedur.sql`, `bukti/`, Bab I dan III laporan | Anggota 1 | Kesepakatan awal, dua prosedur, bukti, dan dokumen akhir |
 | `sql/02_data.sql`, dokumentasi normalisasi 1NF sampai BCNF, tangkapan layar query dasar | Anggota 2 | Data contoh dan bukti normalisasi |
 | `sql/01_struktur.sql`, tabel transformasi, skema relasional, aljabar relasional | Anggota 3 | Skema fisik dan penjelasan transformasi |
-| `sql/03_view_trigger.sql`, `sql/04_prosedur.sql` | Anggota 4 | Dua view, empat trigger, dua prosedur |
-| `sql/05_keamanan.sql`, `sql/06_indeks.sql`, sepuluh query Q1–Q10, `bukti/10-kueri.txt` | Anggota 5 | Tiga pengguna, bukti `ERROR 1142`, dua indeks dan `EXPLAIN`, sepuluh query |
+| `sql/03_view_trigger.sql`, `sql/06_indeks.sql` | Anggota 4 | Dua view, empat trigger, dua indeks dan `EXPLAIN` |
+| `sql/05_keamanan.sql`, sepuluh query Q1–Q10, `bukti/10-kueri.txt` | Anggota 5 | Tiga pengguna, bukti `ERROR 1142`, sepuluh query |
 | `sql/07_pengujian.sql`, `tools/`, `bukti/` pendamping uji, PDF panduan | Anggota 6 | Sepuluh skenario uji, skrip bantu, bukti uji, dan rilis |
 
 Berkas bersama yang tidak dimiliki satu orang: `README.md`, `docs/ai/`, dan

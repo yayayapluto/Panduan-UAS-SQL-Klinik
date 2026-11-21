@@ -205,11 +205,11 @@ Nama branch menyesuaikan peran, misalnya:
 
 | Branch | Pemilik | Berkas | Panduan |
 |---|---|---|---|
-| `feat/anggota-1-erd` | Anggota 1 | `sql/00-kesepakatan.sql`, ERD, kamus data, Bab I dan III | [Panduan 1](panduan-anggota-1-kontrak-erd.md) |
+| `feat/anggota-1-erd` | Anggota 1 | `sql/00-kesepakatan.sql`, `sql/04_prosedur.sql`, ERD, kamus data, Bab I dan III | [Panduan 1](panduan-anggota-1-kontrak-erd.md) |
 | `feat/anggota-2-data` | Anggota 2 | `sql/02_data.sql`, dokumentasi normalisasi | [Panduan 2](panduan-anggota-2-normalisasi-data.md) |
 | `feat/anggota-3-struktur` | Anggota 3 | `sql/01_struktur.sql`, transformasi | [Panduan 3](panduan-anggota-3-struktur-transformasi.md) |
-| `feat/anggota-4-objek` | Anggota 4 | `sql/03` dan `sql/04` | [Panduan 4](panduan-anggota-4-view-trigger-prosedur.md) |
-| `feat/anggota-5-keamanan` | Anggota 5 | `sql/05`, `sql/06`, Q1 sampai Q10 | [Panduan 5](panduan-anggota-5-keamanan-indeks.md) |
+| `feat/anggota-4-objek` | Anggota 4 | `sql/03`, `sql/06` | [Panduan 4](panduan-anggota-4-view-trigger-prosedur.md) |
+| `feat/anggota-5-keamanan` | Anggota 5 | `sql/05`, Q1 sampai Q10 | [Panduan 5](panduan-anggota-5-keamanan-kueri.md) |
 | `feat/anggota-6-uji` | Anggota 6 | `sql/07`, `tools/`, `bukti/` | [Panduan 6](panduan-anggota-6-pengujian-rilis.md) |
 
 Satu branch boleh memuat beberapa commit, tetapi hanya menyentuh berkas milik

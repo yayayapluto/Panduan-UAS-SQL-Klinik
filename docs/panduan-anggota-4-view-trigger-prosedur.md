@@ -1,47 +1,47 @@
-# Panduan Anggota 4: View, Trigger, dan Prosedur
+# Panduan Anggota 4: View, Trigger, dan Indeks
 
 ## Peran
 
 Kamu adalah Anggota 4. Kamu menulis dua berkas yang membuat database bukan
-hanya menyimpan data, tetapi juga menjaga aturan dan menghitung tagihan:
-`sql/03_view_trigger.sql` dan `sql/04_prosedur.sql`.
+hanya menyimpan data, tetapi juga menjaga aturan dan memakai data dengan cepat:
+`sql/03_view_trigger.sql` dan `sql/06_indeks.sql`.
 
-Kamu juga pemeriksa pertama skema buatan Anggota 3. Sebelum menulis view atau
-trigger, pastikan nama tabel dan kolom di `sql/01_struktur.sql` sudah sesuai PRD.
+Kamu juga pemeriksa pertama skema buatan Anggota 3. Sebelum menulis view,
+trigger, atau indeks, pastikan nama tabel dan kolom di `sql/01_struktur.sql`
+sudah sesuai PRD.
 
 ## Berkas Milik
 
 | Berkas | Isi |
 |---|---|
 | `sql/03_view_trigger.sql` | Dua view dan empat trigger |
-| `sql/04_prosedur.sql` | Dua stored procedure |
-| Bahan Bab II | Penjelasan view, trigger, prosedur, dan pesan galat |
+| `sql/06_indeks.sql` | Dua indeks beserta EXPLAIN sebelum dan sesudah |
+| `bukti/06_indeks.txt` | Keluaran EXPLAIN sebelum dan sesudah |
+| Bahan Bab II | Penjelasan view, trigger, indeks, dan rencana eksekusi |
 
-Hak akses, indeks, dan sepuluh query milik Anggota 5. Skema bukan milikmu. Kalau
-butuh kolom baru untuk trigger atau indeks, kirim usulan ke Anggota 3. Jangan
-menambah kolom lewat `ALTER TABLE` di berkas 03 dan 04.
+Prosedur `sql/04_prosedur.sql` milik Anggota 1. Hak akses dan sepuluh query
+milik Anggota 5. Skema bukan milikmu. Kalau butuh kolom baru untuk trigger atau
+indeks, kirim usulan ke Anggota 3. Jangan menambah kolom lewat `ALTER TABLE` di
+berkas 03 dan 06.
 
 ## Konteks untuk AI
 
 Proyek ini memakai MySQL 8.0, database `klinik_pratama`, dan skema sebelas tabel
 pada `sql/01_struktur.sql`. Sebagai Anggota 4 kamu menulis view, trigger, dan
-prosedur. Semua nama objek sudah ditetapkan dan tidak boleh diganti.
+indeks. Semua nama objek sudah ditetapkan dan tidak boleh diganti.
 
 Nama yang wajib dipakai:
 
 - View: `v_kunjungan_lengkap`, `v_pendapatan_poli`.
 - Trigger: `trg_cek_kuota_jadwal`, `trg_cek_bentrok_jadwal`,
   `trg_cek_stok_obat`, `trg_kurangi_stok`.
-- Prosedur: `sp_daftar_kunjungan(p_id_pasien, p_id_jadwal)`,
-  `sp_bayar_kunjungan(p_id_kunjungan, p_metode)`.
+- Indeks: `idx_pasien_nama`, `idx_kunjungan_tanggal`.
 
 Pesan galat yang diuji lewat `SIGNAL SQLSTATE '45000'` harus sama persis:
-`Kuota jadwal sudah penuh`, `Jadwal dokter bentrok`, `Stok obat tidak cukup`,
-`Jadwal tidak ditemukan`, `Jadwal sudah lewat, tidak bisa didaftari`,
-`Kunjungan sudah dibayar`.
+`Kuota jadwal sudah penuh`, `Jadwal dokter bentrok`, `Stok obat tidak cukup`.
 
 Jangan memakai `FOREIGN_KEY_CHECKS=0`, jangan mengganti `DELIMITER` di luar
-klien `mysql`, dan jangan menambah trigger baru yang tidak diminta.
+klien `mysql`, dan jangan menambah trigger atau indeks baru yang tidak diminta.
 
 ## Milestone 1: Dua View
 
@@ -138,95 +138,48 @@ tidak lagi bisa diandalkan.
 ditolak. Trigger kuota dan bentrok memakai `SIGNAL`, sehingga pesan yang dicari
 adalah teks pesannya, bukan nomor galat.
 
-## Milestone 3: Dua Prosedur
+## Milestone 3: Dua Indeks dan EXPLAIN
 
-### 3.1 `sp_daftar_kunjungan`
+### 3.1 `idx_pasien_nama`
 
-Langkah:
-
-1. `START TRANSACTION`.
-2. Ambil tanggal jadwal. Jika `NULL`, kirim `Jadwal tidak ditemukan`.
-3. Jika tanggal sudah lewat dari `CURDATE()`, kirim
-   `Jadwal sudah lewat, tidak bisa didaftari`.
-4. Hitung antrean: `COALESCE(MAX(no_antrean), 0) + 1` untuk jadwal itu.
-5. `INSERT` kunjungan berstatus `Menunggu`.
-6. `COMMIT`.
-7. Kembalikan `id_kunjungan_baru` dan `no_antrean`.
-
-Kuota tidak diperiksa di sini karena sudah dijaga trigger. Menulis pemeriksaan
-yang sama di dua tempat membuat pesan galat berbeda dan sulit diuji.
-
-### 3.2 `sp_bayar_kunjungan`
-
-Langkah:
-
-1. `START TRANSACTION`.
-2. Hitung `COUNT(*)` pembayaran untuk kunjungan. Jika lebih dari nol, kirim
-   `Kunjungan sudah dibayar`.
-3. Hitung total dari tindakan ditambah obat:
-
-   ```text
-   SUM(detail_tindakan.jumlah * tindakan.tarif)
-   +
-   SUM(detail_resep.jumlah * obat.harga)
-   ```
-
-4. `INSERT` pembayaran dengan `CURDATE()`, metode dari parameter, status
-   `Lunas`.
-5. `COMMIT`.
-6. Kembalikan `total_dibayar`.
-
-Kedua prosedur memakai `EXIT HANDLER FOR SQLEXCEPTION` yang menjalankan
-`ROLLBACK` dan `RESIGNAL`. Ini yang membuat sifat atomicity bisa dibuktikan:
-jika salah satu langkah gagal, tidak ada baris setengah jadi.
-
-### 3.3 Periksa
-
-Uji 7 mendaftarkan pasien pada jadwal Desember 2026, menambah satu tindakan dan
-satu resep, lalu membayar. Total yang diharapkan 155.000, dari 150.000 biaya
-pembersihan karang gigi ditambah 5.000 harga sepuluh tablet Paracetamol.
-
-Pemanggilan kedua harus ditolak `Kunjungan sudah dibayar`.
-
-## Milestone 4: Transaksi pada Prosedur
-
-Kamu menulis prosedur yang membuktikan ACID. Demo isolasi dijalankan Anggota 6,
-atau kamu sendiri memakai `tools/demo-isolasi.sh`.
-
-- **Atomicity.** Total dihitung dan pembayaran disimpan dalam satu transaksi.
-- **Consistency.** Pemeriksaan pembayaran ganda berjalan sebelum insert.
-- **Isolation.** Sesi lain tidak melihat baris sebelum `COMMIT`.
-- **Durability.** Setelah `COMMIT`, baris tetap ada walaupun koneksi putus.
-
-Demo membandingkan dua tingkat isolasi:
-
-```text
-READ COMMITTED
-Stok awal obat 1: 200
-A membaca pertama kali  : 200
-A membaca setelah B commit: 195
-B mengubah stok menjadi  : 195
-
-REPEATABLE READ
-Stok obat 1 sebelum percobaan: 195
-A membaca pertama kali  : 195
-A membaca setelah B commit: 195
-B mengubah stok menjadi  : 190
+```sql
+EXPLAIN SELECT * FROM pasien WHERE nama_pasien LIKE 'A%';
+CREATE INDEX idx_pasien_nama ON pasien (nama_pasien);
+EXPLAIN SELECT * FROM pasien WHERE nama_pasien LIKE 'A%';
 ```
 
-Pada `REPEATABLE READ`, semua bacaan dalam satu transaksi memakai gambaran data
-yang sama sejak transaksi dimulai. Ini tingkat bawaan MySQL.
+| Keadaan | type | key | rows |
+|---|---|---|---|
+| Sebelum | ALL | NULL | 10 |
+| Sesudah | range | idx_pasien_nama | 1 |
 
-Deadlock muncul saat dua sesi mengunci baris dengan urutan berlawanan. InnoDB
-memilih satu transaksi sebagai korban:
+### 3.2 `idx_kunjungan_tanggal`
 
-```text
-ERROR 1213 (40001): Deadlock found when trying to get lock;
-try restarting transaction
+Indeks gabungan `(tanggal_kunjungan, id_jadwal)`. Kolom tanggal diletakkan lebih
+dulu karena dipakai sendirian pada penyaringan; kolom kedua berguna saat laporan
+menyaring tanggal sekaligus jadwal.
+
+| Keadaan | type | key | rows |
+|---|---|---|---|
+| Sebelum | ALL | NULL | 14 |
+| Sesudah | ref | idx_kunjungan_tanggal | 3 |
+
+### 3.3 Skrip harus bisa diulang
+
+`06_indeks.sql` membuang indeks lebih dulu jika sudah ada, memakai
+`information_schema.statistics` dan `PREPARE`. Tanpa ini, menjalankan
+`reset-db.sh` dua kali akan gagal dengan galat 1061 karena nama indeks sudah
+dipakai.
+
+### 3.4 Simpan bukti
+
+```bash
+docker exec -i kbd-mysql mysql -uroot -pkbd klinik_pratama \
+  < sql/06_indeks.sql > bukti/06_indeks.txt
 ```
 
-Galat ini bukan kerusakan. Penanganan yang benar adalah mengulang transaksi
-sekali atau dua kali.
+`verify.sh` bagian D membaca kolom `key` dari `EXPLAIN`. Jika isinya masih
+`NULL`, indeks tidak dipakai optimizer dan pemeriksaan gagal.
 
 ## Checklist
 
@@ -234,11 +187,10 @@ sekali atau dua kali.
 - [ ] `v_kunjungan_lengkap` menghasilkan 14 baris.
 - [ ] Empat trigger ada, urutan BEFORE dan AFTER benar.
 - [ ] Pesan galat trigger sama persis dengan yang diuji.
-- [ ] Dua prosedur memakai transaksi dan `EXIT HANDLER`.
-- [ ] Pembayaran kedua ditolak.
-- [ ] Skrip 03 dan 04 bisa dijalankan ulang.
-- [ ] `verify.sh` bagian C dan E lulus.
-- [ ] Bahan Bab II memuat potongan view, trigger, dan prosedur.
+- [ ] Dua indeks ada dan dipakai optimizer pada EXPLAIN.
+- [ ] Skrip 03 dan 06 bisa dijalankan ulang.
+- [ ] `verify.sh` bagian C, D, dan E lulus.
+- [ ] Bahan Bab II memuat potongan view, trigger, indeks, dan rencana eksekusi.
 
 ## Kesalahan yang Sering Terjadi
 
@@ -247,26 +199,26 @@ sekali atau dua kali.
    sebelum ditolak.
 3. Menulis `DELIMITER` di dalam berkas yang dijalankan lewat `mysql -e`; opsi
    itu hanya dikenal klien interaktif.
-4. Menaruh pemeriksaan kuota di prosedur juga, sehingga pesan galat berbeda
-   dari trigger.
-5. Menyimpan status `Lunas` di prosedur pembayaran tanpa menghitung ulang total
-   dari tindakan dan obat.
+4. Membuat indeks tanpa `EXPLAIN` sebelum, sehingga tidak ada bukti pengaruhnya.
+5. Menjalankan `06_indeks.sql` dua kali tanpa membuang indeks lebih dulu.
+6. Mengubah urutan kolom indeks gabungan tanpa memahami query yang dilayani.
 
 ## Prompt Siap Tempel
 
 ```text
 Saya Anggota 4. Saya sedang menulis sql/03_view_trigger.sql dan
-sql/04_prosedur.sql. Berikut aturan umum proyek, skema, dan potongan berkas saya.
+sql/06_indeks.sql. Berikut aturan umum proyek, skema, dan potongan berkas saya.
 
 Periksa: (1) setiap nama tabel dan kolom yang dipakai ada di skema, (2) trigger
-stok memakai BEFORE untuk memeriksa dan AFTER untuk mengurangi, (3) prosedur
-memakai START TRANSACTION dan EXIT HANDLER ROLLBACK. Sebutkan baris yang salah.
-Jangan mengganti nama objek dan jangan menambah trigger baru.
+stok memakai BEFORE untuk memeriksa dan AFTER untuk mengurangi, (3) indeks
+dibuat setelah EXPLAIN sebelum dan kolom key pada EXPLAIN sesudah berisi nama
+indeks. Sebutkan baris yang salah. Jangan mengganti nama objek dan jangan
+menambah trigger atau indeks baru.
 ```
 
 ## Definition of Done
 
-Fase Anggota 4 selesai jika dua view, empat trigger, dan dua prosedur berjalan
-dengan nama yang ditetapkan; bagian 03 dan 04 bisa dijalankan ulang lewat
-`reset-db.sh`; `verify.sh` bagian C dan E lulus; serta potongan view, trigger,
-prosedur, dan pesan galatnya sudah disimpan untuk laporan.
+Fase Anggota 4 selesai jika dua view, empat trigger, dan dua indeks berjalan
+dengan nama yang ditetapkan; bagian 03 dan 06 bisa dijalankan ulang lewat
+`reset-db.sh`; `verify.sh` bagian C, D, dan E lulus; serta potongan view,
+trigger, indeks, dan pesan galatnya sudah disimpan untuk laporan.

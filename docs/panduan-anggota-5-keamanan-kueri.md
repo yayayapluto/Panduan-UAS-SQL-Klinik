@@ -1,31 +1,29 @@
-# Panduan Anggota 5: Hak Akses, Indeks, dan Sepuluh Query
+# Panduan Anggota 5: Hak Akses dan Sepuluh Query
 
 ## Ringkasan
 
-Kamu menulis `sql/05_keamanan.sql` dan `sql/06_indeks.sql`, lalu menyusun
-sepuluh query Q1 sampai Q10 beserta berkas hasilnya `bukti/10-kueri.txt`.
-Pekerjaanmu membuktikan dua hal yang tidak terlihat dari isi tabel: siapa yang
-boleh menulis apa, dan apakah optimizer benar-benar memakai indeks.
+Kamu menulis `sql/05_keamanan.sql`, lalu menyusun sepuluh query Q1 sampai Q10
+beserta berkas hasilnya `bukti/10-kueri.txt`. Pekerjaanmu membuktikan dua hal
+yang tidak terlihat dari isi tabel: siapa yang boleh menulis apa, dan apakah
+pertanyaan pada PRD benar-benar bisa dijawab SQL.
 
 Kamu juga pemeriksa kedua skema buatan Anggota 3. Nama tabel, kolom, dan
 constraint pada `sql/01_struktur.sql` harus sudah beku lewat tag `skema-v1`
-sebelum hak akses dan indeks ditulis.
+sebelum hak akses ditulis.
 
 ## Berkas Milik
 
 | Berkas atau bagian | Isi |
 |---|---|
 | `sql/05_keamanan.sql` | Tiga pengguna, hak akses, `SHOW GRANTS` |
-| `sql/06_indeks.sql` | Dua indeks beserta EXPLAIN sebelum dan sesudah |
 | `bukti/kueri-panduan.sql` | Sepuluh query Q1 sampai Q10 |
 | `bukti/10-kueri.txt` | Keluaran nyata sepuluh query |
 | `bukti/05_keamanan.txt` | Keluaran skrip keamanan dan penolakan 1142 |
-| `bukti/06_indeks.txt` | Keluaran EXPLAIN sebelum dan sesudah |
-| Bahan Bab II | Tabel hak akses, tabel rencana eksekusi, tabel hasil query |
+| Bahan Bab II | Tabel hak akses dan tabel hasil query |
 
-Berkas `sql/07_pengujian.sql` dan `tools/` milik Anggota 6. Kalau pengujian
-menemukan hak akses atau indeks yang salah, perbaiki berkas 05 dan 06, bukan
-skrip pengujiannya.
+Berkas `sql/06_indeks.sql` milik Anggota 4, sedangkan `sql/07_pengujian.sql` dan
+`tools/` milik Anggota 6. Kalau pengujian menemukan hak akses atau query yang
+salah, perbaiki berkas 05 dan kueri milikmu, bukan skrip pengujiannya.
 
 ## Prasyarat
 
@@ -81,51 +79,9 @@ ERROR 1142 (42000): INSERT command denied to user 'petugas_klinik'@'%' for table
 Simpan keluaran itu di `bukti/05_keamanan.txt`. `verify.sh` bagian F memeriksa
 `SHOW GRANTS` dan penolakan ini.
 
-## Langkah 2: Dua Indeks dan EXPLAIN
+## Langkah 2: Sepuluh Query Q1 sampai Q10
 
-### 2.1 `idx_pasien_nama`
-
-```sql
-EXPLAIN SELECT * FROM pasien WHERE nama_pasien LIKE 'A%';
-CREATE INDEX idx_pasien_nama ON pasien (nama_pasien);
-EXPLAIN SELECT * FROM pasien WHERE nama_pasien LIKE 'A%';
-```
-
-| Keadaan | type | key | rows |
-|---|---|---|---|
-| Sebelum | ALL | NULL | 10 |
-| Sesudah | range | idx_pasien_nama | 1 |
-
-### 2.2 `idx_kunjungan_tanggal`
-
-Indeks gabungan `(tanggal_kunjungan, id_jadwal)`. Kolom tanggal diletakkan lebih
-dulu karena dipakai sendirian pada penyaringan; kolom kedua berguna saat laporan
-menyaring tanggal sekaligus jadwal.
-
-| Keadaan | type | key | rows |
-|---|---|---|---|
-| Sebelum | ALL | NULL | 14 |
-| Sesudah | ref | idx_kunjungan_tanggal | 3 |
-
-### 2.3 Skrip harus bisa diulang
-
-`06_indeks.sql` membuang indeks lebih dulu jika sudah ada, memakai
-`information_schema.statistics` dan `PREPARE`. Tanpa ini, menjalankan
-`reset-db.sh` dua kali akan gagal karena nama indeks sudah dipakai.
-
-### 2.4 Simpan bukti
-
-```bash
-docker exec -i kbd-mysql mysql -uroot -pkbd klinik_pratama \
-  < sql/06_indeks.sql > bukti/06_indeks.txt
-```
-
-`verify.sh` bagian D membaca kolom `key` dari `EXPLAIN`. Jika isinya masih
-`NULL`, indeks tidak dipakai optimizer dan pemeriksaan gagal.
-
-## Langkah 3: Sepuluh Query Q1 sampai Q10
-
-### 3.1 Tulis `bukti/kueri-panduan.sql`
+### 2.1 Tulis `bukti/kueri-panduan.sql`
 
 Sepuluh query dari [PRD §7](PRD.md#7-kebutuhan-informasi-dan-query) disimpan
 dalam satu berkas, berurutan Q1 sampai Q10, masing-masing didahului komentar
@@ -147,7 +103,7 @@ dalam satu berkas, berurutan Q1 sampai Q10, masing-masing didahului komentar
 Q9 tidak berasal langsung dari satu pertanyaan kebutuhan, tetapi dipakai untuk
 melatih `CASE` dan membaca sebaran biaya.
 
-### 3.2 Jalankan dan simpan
+### 2.2 Jalankan dan simpan
 
 ```bash
 docker exec -i kbd-mysql mysql -uroot -pkbd klinik_pratama \
@@ -157,7 +113,7 @@ docker exec -i kbd-mysql mysql -uroot -pkbd klinik_pratama \
 Jalankan selalu setelah `reset-db.sh`, bukan setelah percobaan pengujian, supaya
 jumlah baris sesuai tabel acuan di atas.
 
-### 3.3 Cocokkan dengan laporan
+### 2.3 Cocokkan dengan laporan
 
 Satu angka yang berubah berarti ada dua berkas yang harus diperbarui sekaligus:
 `bukti/10-kueri.txt` dan tabel hasil di laporan. Jangan mengubah data contoh agar
@@ -168,14 +124,11 @@ satu query terlihat lebih rapi; data contoh milik Anggota 2.
 1. `sql/05_keamanan.sql` dijalankan ulang dua kali tanpa galat.
 2. `SHOW GRANTS` menampilkan tiga akun sesuai tabel hak akses.
 3. Penulisan oleh `petugas_klinik` ditolak dengan `ERROR 1142`.
-4. `sql/06_indeks.sql` dijalankan ulang dua kali tanpa galat.
-5. Kolom `key` pada EXPLAIN sesudah berisi `idx_pasien_nama` dan
-   `idx_kunjungan_tanggal`.
-6. Sepuluh query Q1 sampai Q10 berjalan tanpa galat dan hasilnya cocok dengan
+4. Sepuluh query Q1 sampai Q10 berjalan tanpa galat dan hasilnya cocok dengan
    tabel acuan.
-7. `bukti/05_keamanan.txt`, `bukti/06_indeks.txt`, dan `bukti/10-kueri.txt`
-   berasal dari database hasil `reset-db.sh` terakhir.
-8. `verify.sh` bagian D dan F lulus.
+5. `bukti/05_keamanan.txt` dan `bukti/10-kueri.txt` berasal dari database hasil
+   `reset-db.sh` terakhir.
+6. `verify.sh` bagian F lulus.
 
 ## Kesalahan Umum
 
@@ -185,24 +138,19 @@ satu query terlihat lebih rapi; data contoh milik Anggota 2.
    dijalankan kedua kali.
 3. Menguji penolakan 1142 sebagai `root`; galat tidak muncul karena `root` punya
    hak penuh.
-4. Membuat indeks tanpa `EXPLAIN` sebelum, sehingga tidak ada bukti pengaruhnya.
-5. Menjalankan `06_indeks.sql` dua kali tanpa membuang indeks lebih dulu.
-6. Mengubah urutan kolom indeks gabungan tanpa memahami query yang dilayani.
-7. Menjalankan Q1 sampai Q10 sebelum `reset-db.sh`, lalu hasilnya meleset satu
+4. Menjalankan Q1 sampai Q10 sebelum `reset-db.sh`, lalu hasilnya meleset satu
    atau dua baris.
-8. Menyalin angka query ke laporan dari percobaan lama, bukan dari
+5. Menyalin angka query ke laporan dari percobaan lama, bukan dari
    `bukti/10-kueri.txt` terakhir.
 
 ## Serah Terima
 
 - [ ] Tiga pengguna ada dengan hak sesuai tabel.
 - [ ] Penolakan 1142 terbukti dan tersimpan.
-- [ ] Dua indeks ada dan dipakai optimizer pada `EXPLAIN`.
-- [ ] Skrip 05 dan 06 bisa dijalankan ulang.
+- [ ] Skrip 05 bisa dijalankan ulang.
 - [ ] `bukti/kueri-panduan.sql` memuat Q1 sampai Q10 berurutan.
 - [ ] `bukti/10-kueri.txt` cocok dengan tabel acuan PRD §7.
-- [ ] `verify.sh` bagian D dan F lulus.
-- [ ] Bahan Bab II memuat tabel hak akses, tabel rencana eksekusi, dan tabel hasil
-      query.
+- [ ] `verify.sh` bagian F lulus.
+- [ ] Bahan Bab II memuat tabel hak akses dan tabel hasil query.
 - [ ] Anggota 6 menerima berkas ini dan menjalankan ulang `verify.sh` dari salinan
       bersih.

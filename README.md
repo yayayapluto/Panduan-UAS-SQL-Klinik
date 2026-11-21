@@ -29,8 +29,8 @@ berada di repositori kerja kelompok dan dipakai bersama dokumen di sini.
 5. [Panduan Anggota 1: Kontrak, Studi Kasus, dan ERD](docs/panduan-anggota-1-kontrak-erd.md)
 6. [Panduan Anggota 2: Normalisasi dan Data Contoh](docs/panduan-anggota-2-normalisasi-data.md)
 7. [Panduan Anggota 3: Struktur Tabel dan Transformasi](docs/panduan-anggota-3-struktur-transformasi.md)
-8. [Panduan Anggota 4: View, Trigger, dan Prosedur](docs/panduan-anggota-4-view-trigger-prosedur.md)
-9. [Panduan Anggota 5: Keamanan dan Indeks](docs/panduan-anggota-5-keamanan-indeks.md)
+8. [Panduan Anggota 4: View, Trigger, dan Indeks](docs/panduan-anggota-4-view-trigger-prosedur.md)
+9. [Panduan Anggota 5: Hak Akses dan Sepuluh Query](docs/panduan-anggota-5-keamanan-kueri.md)
 10. [Panduan Anggota 6: Pengujian, Bukti, dan Rilis](docs/panduan-anggota-6-pengujian-rilis.md)
 11. [Panduan GitHub Bersama](PANDUAN-GITHUB.md): repo privat untuk panduan, repo
     publik untuk tim, undangan anggota, branch, pull request, dan push.
@@ -130,11 +130,11 @@ Hasilnya `panduan/utama.pdf` dan `laporan/template-laporan.pdf`.
 
 | Anggota | Berkas milik | Panduan | Minggu target |
 |---|---|---|---|
-| Anggota 1 | Studi kasus, kamus data, ERD, `sql/00-kesepakatan.sql`, `bukti/`, Bab I dan III laporan | [Anggota 1](docs/panduan-anggota-1-kontrak-erd.md) | Minggu 1 dan 4 |
+| Anggota 1 | `sql/00-kesepakatan.sql`, `sql/04_prosedur.sql`, `bukti/`, Bab I dan III laporan | [Anggota 1](docs/panduan-anggota-1-kontrak-erd.md) | Minggu 1 dan 4 |
 | Anggota 2 | `sql/02_data.sql`, dokumentasi normalisasi, tangkapan layar query dasar | [Anggota 2](docs/panduan-anggota-2-normalisasi-data.md) | Minggu 2 |
 | Anggota 3 | `sql/01_struktur.sql`, transformasi, skema relasional, aljabar relasional | [Anggota 3](docs/panduan-anggota-3-struktur-transformasi.md) | Minggu 2 |
-| Anggota 4 | `sql/03_view_trigger.sql`, `sql/04_prosedur.sql` | [Anggota 4](docs/panduan-anggota-4-view-trigger-prosedur.md) | Minggu 3 |
-| Anggota 5 | `sql/05_keamanan.sql`, `sql/06_indeks.sql`, sepuluh query Q1–Q10, `bukti/10-kueri.txt` | [Anggota 5](docs/panduan-anggota-5-keamanan-indeks.md) | Minggu 3 |
+| Anggota 4 | `sql/03_view_trigger.sql`, `sql/06_indeks.sql` | [Anggota 4](docs/panduan-anggota-4-view-trigger-prosedur.md) | Minggu 3 |
+| Anggota 5 | `sql/05_keamanan.sql`, sepuluh query Q1–Q10, `bukti/10-kueri.txt` | [Anggota 5](docs/panduan-anggota-5-keamanan-kueri.md) | Minggu 3 |
 | Anggota 6 | `sql/07_pengujian.sql`, `tools/`, `bukti/` pendamping uji, PDF panduan | [Anggota 6](docs/panduan-anggota-6-pengujian-rilis.md) | Minggu 3 dan 4 |
 
 Review silang: Anggota 3 memeriksa hasil Anggota 4, Anggota 4 memeriksa hasil

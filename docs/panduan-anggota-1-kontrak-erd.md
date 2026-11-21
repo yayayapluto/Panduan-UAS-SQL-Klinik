@@ -1,4 +1,4 @@
-# Panduan Anggota 1: Kontrak, Studi Kasus, Kamus Data, dan ERD
+# Panduan Anggota 1: Kontrak, ERD, dan Prosedur
 
 ## Peran
 
@@ -17,6 +17,7 @@ kesepakatan di grup.
 | Berkas atau bagian | Isi |
 |---|---|
 | `sql/00-kesepakatan.sql` | Kesepakatan nama objek, aturan bisnis, kardinalitas, dan kebutuhan informasi |
+| `sql/04_prosedur.sql` | Dua stored procedure: `sp_daftar_kunjungan` dan `sp_bayar_kunjungan` |
 | `bukti/` | Keluaran nyata setiap skrip, dirapikan bersama Anggota 6 |
 | `panduan/gambar/erd.tex` atau gambar draw.io | Diagram relasi entitas |
 | `laporan/template-laporan.tex` bagian Bab I | Deskripsi basis data, studi kasus, ruang lingkup, pembagian peran |
@@ -24,18 +25,19 @@ kesepakatan di grup.
 | Sampul dan tabel peran laporan | Nama dan NIM keenam anggota beserta uraian tugas |
 | Bahan subbab perbandingan NoSQL | Pemetaan dokumen JSON dan alasan memilih relasional |
 
-Satu-satunya berkas SQL milikmu adalah `sql/00-kesepakatan.sql`; struktur dan
-data tetap milik anggota lain. Nama tabel dan kolom yang kamu tetapkan dipakai
-oleh Anggota 2 sampai Anggota 5, jadi perubahan nama harus lewat kesepakatan
-dengan mereka.
+Berkas SQL milikmu ada dua: `sql/00-kesepakatan.sql` dan `sql/04_prosedur.sql`;
+struktur dan data tetap milik anggota lain. Nama tabel dan kolom yang kamu
+tetapkan dipakai oleh Anggota 2 sampai Anggota 5, jadi perubahan nama harus
+lewat kesepakatan dengan mereka.
 
 ## Konteks untuk AI
 
 Proyek ini adalah basis data klinik pratama dengan MySQL 8.0 dan tepat sebelas
-tabel. Sebagai Anggota 1 kamu menulis `sql/00-kesepakatan.sql`, studi kasus,
-kamus data, ERD, dan Bab I serta Bab III laporan. Kamu tidak menyentuh
-`sql/01_struktur.sql` sampai `sql/07_pengujian.sql` dan tidak mengubah nama yang
-sudah ditetapkan di sana.
+tabel. Sebagai Anggota 1 kamu menulis `sql/00-kesepakatan.sql`,
+`sql/04_prosedur.sql`, studi kasus, kamus data, ERD, dan Bab I serta Bab III
+laporan. Kamu tidak menyentuh `sql/01_struktur.sql` sampai
+`sql/07_pengujian.sql` selain berkas 04, dan tidak mengubah nama yang sudah
+ditetapkan di sana.
 
 Fakta yang wajib dipakai apa adanya:
 
@@ -145,9 +147,77 @@ menambah penggabungan.
 4. Membuat entitas jadwal yang memuat kolom hari sekaligus tanggal. Hari bisa
    diturunkan dari tanggal.
 
-## Milestone 3: Bab I dan Bab III Laporan
+## Milestone 3: Dua Prosedur
 
-### 3.1 Bab I
+Berkas `sql/04_prosedur.sql` berisi dua prosedur simpan. Keduanya menjadi bukti
+sifat atomicity pada bab transaksi: seluruh langkah berjalan dalam satu
+transaksi, dan kegagalan di tengah jalan tidak meninggalkan baris setengah jadi.
+Tulis `DROP PROCEDURE IF EXISTS` sebelum tiap `CREATE PROCEDURE` supaya skrip
+aman dijalankan ulang.
+
+### 3.1 `sp_daftar_kunjungan`
+
+Parameter masuk `p_id_pasien` dan `p_id_jadwal`; keluaran `id_kunjungan_baru`
+dan `no_antrean`. Langkah:
+
+1. `START TRANSACTION`.
+2. Ambil tanggal jadwal. Jika `NULL`, kirim `Jadwal tidak ditemukan`.
+3. Jika tanggal sudah lewat dari `CURDATE()`, kirim
+   `Jadwal sudah lewat, tidak bisa didaftari`.
+4. Hitung antrean: `COALESCE(MAX(no_antrean), 0) + 1` untuk jadwal itu.
+5. `INSERT` kunjungan berstatus `Menunggu`.
+6. `COMMIT`.
+7. Kembalikan `id_kunjungan_baru` dan `no_antrean`.
+
+Kuota tidak diperiksa di sini karena sudah dijaga `trg_cek_kuota_jadwal`.
+Menulis pemeriksaan yang sama di dua tempat membuat pesan galat berbeda dan
+sulit diuji.
+
+### 3.2 `sp_bayar_kunjungan`
+
+Parameter masuk `p_id_kunjungan` dan `p_metode`; keluaran `total_dibayar`.
+Langkah:
+
+1. `START TRANSACTION`.
+2. Hitung `COUNT(*)` pembayaran untuk kunjungan. Jika lebih dari nol, kirim
+   `Kunjungan sudah dibayar`.
+3. Hitung total dari tindakan ditambah obat:
+
+   ```text
+   SUM(detail_tindakan.jumlah * tindakan.tarif)
+   +
+   SUM(detail_resep.jumlah * obat.harga)
+   ```
+
+4. `INSERT` pembayaran dengan `CURDATE()`, metode dari parameter, status
+   `Lunas`.
+5. `COMMIT`.
+6. Kembalikan `total_dibayar`.
+
+Kedua prosedur memakai `EXIT HANDLER FOR SQLEXCEPTION` yang menjalankan
+`ROLLBACK` dan `RESIGNAL`. Ini yang membuat atomicity bisa dibuktikan: jika
+salah satu langkah gagal, tidak ada baris setengah jadi.
+
+### 3.3 Periksa
+
+Uji 7 mendaftarkan pasien pada jadwal Desember 2026, menambah satu tindakan dan
+satu resep, lalu membayar. Total yang diharapkan 155.000, dari 150.000 biaya
+pembersihan karang gigi ditambah 5.000 harga sepuluh tablet Paracetamol.
+Pemanggilan kedua harus ditolak `Kunjungan sudah dibayar`. `verify.sh` bagian G
+memeriksa tiga hal: total cocok hitungan manual, pembayaran kedua ditolak, dan
+tidak ada baris bertotal nol.
+
+### 3.4 Transaksi yang dibuktikan
+
+- **Atomicity.** Total dihitung dan pembayaran disimpan dalam satu transaksi.
+- **Consistency.** Pemeriksaan pembayaran ganda berjalan sebelum insert.
+- **Isolation.** Sesi lain tidak melihat baris sebelum `COMMIT`; demo tingkat
+  isolasi dijalankan Anggota 6 lewat `tools/demo-isolasi.sh`.
+- **Durability.** Setelah `COMMIT`, baris tetap ada walaupun koneksi putus.
+
+## Milestone 4: Bab I dan Bab III Laporan
+
+### 4.1 Bab I
 
 Isi minimal:
 
@@ -157,7 +227,7 @@ Isi minimal:
 - tabel pembagian peran beserta uraian tugas tiap anggota;
 - kamus data dan delapan kebutuhan informasi.
 
-### 3.2 Bab III
+### 4.2 Bab III
 
 Isi kesimpulan yang menjawab tujuan, bukan mengulang daftar tabel. Contoh pola:
 "Basis data ini menjawab delapan kebutuhan informasi; empat di antaranya menuntut
@@ -165,7 +235,7 @@ penggabungan tiga tabel atau lebih." Saran pengembangan harus konkret, misalnya
 penambahan pengadaan obat atau jadwal berulang, dengan menyebut konsekuensi
 skemanya.
 
-### 3.3 Subbab perbandingan NoSQL
+### 4.3 Subbab perbandingan NoSQL
 
 Materi minggu 15 dinilai lewat pemetaan, bukan pembangunan server. Tulis:
 
@@ -176,7 +246,7 @@ Materi minggu 15 dinilai lewat pemetaan, bukan pembangunan server. Tulis:
   ditegakkan mesin, laporan agregasi lintas poli, dan perubahan harga obat yang
   harus konsisten.
 
-## Milestone 4: Pemeriksaan Akhir
+## Milestone 5: Pemeriksaan Akhir
 
 1. Bandingkan kamus data dengan `sql/01_struktur.sql`. Nama dan tipe harus sama.
 2. Bandingkan ERD dengan tabel kardinalitas. Tidak boleh ada relasi yang hilang.
@@ -196,6 +266,8 @@ Materi minggu 15 dinilai lewat pemetaan, bukan pembangunan server. Tulis:
 - [ ] Bab III memuat kesimpulan dan saran yang konkret.
 - [ ] Subbab NoSQL memuat satu dokumen JSON dan alasan memilih relasional.
 - [ ] `sql/00-kesepakatan.sql` memuat kamus data dan kardinalitas yang sama.
+- [ ] Dua prosedur di `sql/04_prosedur.sql` memakai transaksi dan `EXIT HANDLER`;
+      pembayaran kedua ditolak.
 - [ ] Sampul dan tabel peran laporan memuat keenam anggota.
 - [ ] Daftar periksa Anggota 6 diperiksa dengan bukti.
 
@@ -207,6 +279,9 @@ Materi minggu 15 dinilai lewat pemetaan, bukan pembangunan server. Tulis:
 3. Menggambar M:N tanpa tabel penghubung.
 4. Menyalin template laporan tanpa mengganti nama anggota dan NIM.
 5. Menulis kesimpulan yang mengulang Bab I, bukan menjawab tujuan.
+6. Menaruh pemeriksaan kuota di `sp_daftar_kunjungan`, sehingga pesan galatnya
+   berbeda dari trigger.
+7. Menyimpan status `Lunas` tanpa menghitung ulang total dari tindakan dan obat.
 
 ## Prompt Siap Tempel
 
@@ -223,6 +298,7 @@ menambah tabel atau kolom baru, dan jangan mengubah nama yang sudah ada.
 ## Definition of Done
 
 Fase Anggota 1 selesai jika kamus data, ERD, dan tabel kardinalitas disepakati
-sebelum `skema-v1`; `sql/00-kesepakatan.sql` sudah dijalankan; Bab I dan Bab III
-terisi dengan angka yang cocok dengan `bukti/`; subbab NoSQL ada; dan PDF laporan
-terbangun dengan sampul serta tabel peran enam anggota.
+sebelum `skema-v1`; `sql/00-kesepakatan.sql` dan `sql/04_prosedur.sql` sudah
+dijalankan; Bab I dan Bab III terisi dengan angka yang cocok dengan `bukti/`;
+subbab NoSQL ada; dan PDF laporan terbangun dengan sampul serta tabel peran enam
+anggota.

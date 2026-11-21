@@ -34,11 +34,11 @@ Tangkapan layar boleh ditambahkan, tetapi tidak menggantikan keluaran teks.
 
 | Anggota | Peran | Berkas dan bagian milik | Panduan |
 |---|---|---|---|
-| Anggota 1 | Studi kasus, kamus data, ERD, laporan | Studi kasus, delapan kebutuhan informasi, kamus data, ERD, `sql/00-kesepakatan.sql`, `bukti/`, Bab I dan III laporan, sampul, tabel peran | [Panduan 1](panduan-anggota-1-kontrak-erd.md) |
+| Anggota 1 | Studi kasus, kontrak, prosedur, laporan | Studi kasus, delapan kebutuhan informasi, kamus data, ERD, `sql/00-kesepakatan.sql`, `sql/04_prosedur.sql` (prosedur `sp_daftar_kunjungan` dan `sp_bayar_kunjungan`), `bukti/`, Bab I dan III laporan, sampul, tabel peran | [Panduan 1](panduan-anggota-1-kontrak-erd.md) |
 | Anggota 2 | Normalisasi dan data | `sql/02_data.sql`, dokumentasi 1NF sampai BCNF, tangkapan layar query dasar | [Panduan 2](panduan-anggota-2-normalisasi-data.md) |
 | Anggota 3 | Struktur dan transformasi | `sql/01_struktur.sql`, tabel transformasi, skema relasional, aljabar relasional | [Panduan 3](panduan-anggota-3-struktur-transformasi.md) |
-| Anggota 4 | Objek basis data | `sql/03_view_trigger.sql`, `sql/04_prosedur.sql` | [Panduan 4](panduan-anggota-4-view-trigger-prosedur.md) |
-| Anggota 5 | Keamanan, indeks, dan query | `sql/05_keamanan.sql`, `sql/06_indeks.sql`, sepuluh query, `bukti/10-kueri.txt` | [Panduan 5](panduan-anggota-5-keamanan-indeks.md) |
+| Anggota 4 | View, trigger, dan indeks | `sql/03_view_trigger.sql`, `sql/06_indeks.sql` | [Panduan 4](panduan-anggota-4-view-trigger-prosedur.md) |
+| Anggota 5 | Keamanan dan query | `sql/05_keamanan.sql`, sepuluh query Q1 sampai Q10, `bukti/10-kueri.txt` | [Panduan 5](panduan-anggota-5-keamanan-kueri.md) |
 | Anggota 6 | Pengujian dan rilis | `sql/07_pengujian.sql`, `tools/`, `bukti/` pendamping uji, checklist, PDF | [Panduan 6](panduan-anggota-6-pengujian-rilis.md) |
 
 Anggota 1 dan Anggota 3 paling siap menulis SQL, karena keduanya memegang
@@ -68,13 +68,14 @@ Anggota 2 menulis `sql/02_data.sql` yang memenuhi jumlah baris dan keadaan
 khusus. Setelah tag ini, perubahan nama tabel atau kolom harus lewat
 kesepakatan.
 
-**F2: Objek dan query (`objek-sql`), pemilik Anggota 4 dan Anggota 5 dengan
-Anggota 2.** Anggota 4 menulis dua view, empat trigger, dan dua prosedur.
-Anggota 5 menulis tiga pengguna, dua indeks, bukti galat 1142 serta
-`EXPLAIN`, dan sepuluh query yang keluarannya disimpan di
-`bukti/10-kueri.txt`. Anggota 2 menyelesaikan dokumentasi normalisasi dan
-tangkapan layar query dasar. Pekerjaan boleh paralel karena berkasnya berbeda, tetapi semuanya
-membaca `skema-v1`.
+**F2: Objek dan query (`objek-sql`), pemilik Anggota 4, Anggota 1, dan
+Anggota 5 dengan Anggota 2.** Anggota 4 menulis dua view, empat trigger, dua
+indeks, serta bukti `EXPLAIN` sebelum dan sesudah indeks. Anggota 1 menulis dua
+prosedur, `sp_daftar_kunjungan` dan `sp_bayar_kunjungan`. Anggota 5 menulis tiga
+pengguna, hak akses, bukti galat 1142, dan sepuluh query yang keluarannya
+disimpan di `bukti/10-kueri.txt`. Anggota 2 menyelesaikan dokumentasi normalisasi
+dan tangkapan layar query dasar. Pekerjaan boleh paralel karena berkasnya
+berbeda, tetapi semuanya membaca `skema-v1`.
 
 **F3: Integrasi dan pengujian (`uji-hijau`), pemilik Anggota 6.** Anggota 6
 menulis `sql/07_pengujian.sql`, menjalankan `tools/verify.sh`, memperbarui
@@ -140,9 +141,10 @@ berjalan, jadi urutannya sudah benar, tetapi pesan galatnya belum diuji di Uji
 
 Satu sesi kerja bersama per fase. Anggota 3 dan Anggota 2 duduk selama 30 sampai
 60 menit untuk membahas skema dan data yang macet, misalnya urutan pembuatan
-tabel atau baris yang melanggar kunci tamu. Setelah `skema-v1`, Anggota 4 dan
-Anggota 5 mengadakan sesi serupa untuk objek: view, trigger, prosedur, hak
-akses, dan indeks. Sesi dicatat tanggalnya di pesan grup.
+tabel atau baris yang melanggar kunci tamu. Setelah `skema-v1`, Anggota 1 dan
+Anggota 5 mengadakan sesi serupa untuk prosedur dan kueri: urutan pemanggilan
+prosedur, parameter, serta angka pada `bukti/10-kueri.txt`. Sesi dicatat
+tanggalnya di pesan grup.
 
 Checklist "bisa menjelaskan" berlaku per objek yang dipegang. Sebelum penyerahan
 boleh digabung, pemiliknya harus bisa menjawab tanpa membuka berkas:
@@ -163,7 +165,7 @@ Empat minggu, dengan asumsi sekitar 8 sampai 10 jam kerja per orang per minggu.
 |---|---|---|---|
 | M1 | Kesepakatan dan konsep | delapan aturan bisnis, kamus data, ERD, ruang lingkup, `sql/00-kesepakatan.sql`, tag `kesepakatan-v1` | Anggota 1, dibantu seluruh tim |
 | M2 | Skema dan data | `sql/01_struktur.sql`, `sql/02_data.sql`, dokumentasi normalisasi, tag `skema-v1` | Anggota 2 dan Anggota 3 |
-| M3 | Objek, query, dan pengujian | dua view, empat trigger, dua prosedur, tiga pengguna, dua indeks, sepuluh query, `07_pengujian.sql`, `verify.sh` lulus | Anggota 4, Anggota 5, dan Anggota 6 |
+| M3 | Objek, query, dan pengujian | dua view, empat trigger, dua prosedur, tiga pengguna, dua indeks, sepuluh query, `07_pengujian.sql`, `verify.sh` lulus | Anggota 1, Anggota 4, Anggota 5, dan Anggota 6 |
 | M4 | Rilis | ulangan dari database kosong, `bukti/` diperbarui, PDF panduan, PDF laporan, daftar periksa | seluruh tim, Anggota 1 memimpin laporan |
 
 M2 dan M3 paling padat karena skema harus selesai sebelum objek ditulis. Jika
@@ -190,13 +192,13 @@ kunci primer. Sepuluh kunci tamu memakai `ON DELETE RESTRICT ON UPDATE
 CASCADE`. Setiap tabel berisi minimal lima baris. Tidak ada kunci tamu yatim.
 `verify.sh` bagian A dan B lulus. Fase ini milik Anggota 3 dengan Anggota 2.
 
-**F2: `objek-sql`.** Dua view, empat trigger, dan dua prosedur dari Anggota 4
-ada dengan nama yang ditetapkan PRD. Tiga pengguna dan dua indeks dari Anggota 5
-ada dengan nama yang sama. `EXPLAIN` sebelum dan sesudah indeks menunjukkan
-perubahan kolom `key`. Percobaan menulis oleh `petugas_klinik` ditolak 1142.
-Anggota 5 menyelesaikan sepuluh query dan angkanya sama dengan
-`bukti/10-kueri.txt`, sedangkan Anggota 2 menyelesaikan dokumentasi normalisasi. Bagian C, D, dan F pada `verify.sh`
-lulus.
+**F2: `objek-sql`.** Dua view, empat trigger, dan dua indeks dari Anggota 4 ada
+dengan nama yang ditetapkan PRD, dan `EXPLAIN` sebelum dan sesudah indeks
+menunjukkan perubahan kolom `key`. Dua prosedur dari Anggota 1 ada dengan nama
+yang sama. Tiga pengguna dari Anggota 5 ada dengan nama yang sama. Percobaan
+menulis oleh `petugas_klinik` ditolak 1142. Anggota 5 menyelesaikan sepuluh query
+dan angkanya sama dengan `bukti/10-kueri.txt`, sedangkan Anggota 2 menyelesaikan
+dokumentasi normalisasi. Bagian C, D, dan F pada `verify.sh` lulus.
 
 **F3: `uji-hijau`, milik Anggota 6.** Sepuluh skenario pada `07_pengujian.sql`
 memberi hasil sesuai tabel pengujian. `verify.sh` berakhir
@@ -228,8 +230,9 @@ bertanggung jawab menjelaskannya saat demo.
 | W10 | DML, INSERT, UPDATE, DELETE | `sql/02_data.sql` | Anggota 2 |
 | W11 | Join, subquery, agregasi | Q1 sampai Q3 dan Q6 | Anggota 5, diuji Anggota 6 |
 | W12 | Pengelompokan, fungsi jendela | Q4, Q5, Q7 sampai Q10 | Anggota 5, diuji Anggota 6 |
-| W13 | Transaksi, ACID, isolasi | `sql/04_prosedur.sql`, `bukti/isolasi.txt` | Anggota 4, diuji Anggota 6 |
-| W14 | Keamanan, hak akses, indeks | `sql/05_keamanan.sql`, `sql/06_indeks.sql` | Anggota 5 |
+| W13 | Transaksi, ACID, isolasi | `sql/04_prosedur.sql`, `bukti/isolasi.txt` | Anggota 1, diuji Anggota 6 |
+| W14 | Keamanan, hak akses, indeks | `sql/06_indeks.sql` (indeks dan `EXPLAIN`) | Anggota 4 |
+| W14 | Keamanan, hak akses | `sql/05_keamanan.sql` (tiga pengguna, hak akses, galat 1142) | Anggota 5 |
 | W15 | NoSQL dan tren teknologi | pemetaan dokumen JSON, tabel perbandingan | Anggota 1 |
 
 W8 tidak punya luaran baru karena pekan ujian. Bahan normalisasi tetap dipakai
