@@ -186,7 +186,7 @@ gh api -X PUT repos/$R/branches/main/protection --input - <<'JSON'
   "required_pull_request_reviews": {
     "dismiss_stale_reviews": false,
     "require_code_owner_reviews": false,
-    "required_approving_review_count": 1
+    "required_approving_review_count": 0
   },
   "restrictions": null,
   "required_linear_history": false,
@@ -204,7 +204,7 @@ Arti setiap nilai yang dipakai:
 
 | Setelan | Nilai | Akibat |
 |---|---|---|
-| `required_pull_request_reviews` | 1 approval | PR tidak bisa merge sebelum disetujui anggota lain |
+| `required_pull_request_reviews` | 0 approval | PR tetap wajib, tetapi pemilik repo boleh merge PR-nya sendiri |
 | `enforce_admins` | `true` | pemilik pun tidak bisa menembus proteksi |
 | `allow_force_pushes` | `false` | `git push --force` ke `main` ditolak |
 | `allow_deletions` | `false` | branch `main` tidak bisa dihapus |
@@ -224,7 +224,7 @@ gh api repos/$R/branches/main/protection \
 Keluaran yang benar:
 
 ```text
-{"pr":true,"approvals":1,"force":false,"admin":true}
+{"pr":true,"approvals":0,"force":false,"admin":true}
 ```
 
 Uji bahwa proteksi benar-benar bekerja, tanpa mengubah isi repo:
@@ -248,8 +248,12 @@ Kalau percobaan itu berhasil, proteksi belum menahan pemilik repo. Naikkan
 
 Dua konsekuensi yang harus diingat tim:
 
-1. GitHub tidak mengizinkan orang menyetujui pull request sendiri. Pemilik repo
-   tetap butuh satu anggota lain untuk menyetujui PR-nya.
+1. GitHub tidak punya setelan "boleh menyetujui PR sendiri". Penulis PR selalu
+   ditolak saat menekan Approve, berapa pun angka yang dipasang. Karena itu
+   angka dipakai pada contoh ini adalah 0: PR tetap wajib lewat pull request,
+   tetapi pemilik repo bisa merge PR-nya sendiri. Bila tim ingin review silang
+   wajib, naikkan ke 1 dan sadari konsekuensinya: PR pemilik repo menunggu
+   anggota lain.
 2. Bila suatu saat perlu merge cepat tanpa peninjau, turunkan syarat review
    sementara, lalu kembalikan:
 
