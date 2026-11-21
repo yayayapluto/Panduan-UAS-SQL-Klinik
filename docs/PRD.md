@@ -493,7 +493,8 @@ dicentang.
 9. Dua indeks terpasang dan dipakai optimizer pada hasil `EXPLAIN`.
 10. `bukti/` memuat keluaran setiap skrip.
 11. PDF panduan dan laporan terbangun tanpa rujukan menggantung.
-12. Video setiap anggota sudah diunggah dan tautannya bisa dibuka.
+12. Laporan memuat sampul dengan nama dan NIM enam anggota, dan isinya cocok
+    dengan angka pada `bukti/`.
 
 ## 12. Keputusan yang Dicatat
 

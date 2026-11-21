@@ -6,14 +6,14 @@ Paket ini adalah kerangka kerja SQL untuk tim baru yang mengerjakan proyek Klini
 
 | Berkas | Pemilik | Isi |
 | --- | --- | --- |
-| `sql/00-kesepakatan.sql` | P1 | Kesepakatan nama objek, aturan bisnis, kardinalitas, dan kebutuhan informasi. |
-| `sql/01_struktur.sql` | P3 | Sebelas tabel dasar beserta kunci primer, kunci asing, dan constraint. |
-| `sql/02_data.sql` | P2 | Jumlah baris, urutan pengisian, dan keadaan khusus data contoh untuk sebelas tabel. |
-| `sql/03_view_trigger.sql` | P4 | Dua view dan empat trigger kuota, bentrok jadwal, serta stok obat. |
-| `sql/04_prosedur.sql` | P4 | Dua prosedur pendaftaran kunjungan dan pembayaran. |
-| `sql/05_keamanan.sql` | P4 | Tiga user klinik beserta hak aksesnya. |
-| `sql/06_indeks.sql` | P4 | Dua indeks untuk pencarian pasien dan rentang tanggal kunjungan. |
-| `sql/07_pengujian.sql` | P5 | Sepuluh uji perilaku untuk constraint, trigger, prosedur, view, dan hak akses. |
+| `sql/00-kesepakatan.sql` | Anggota 1 | Kesepakatan nama objek, aturan bisnis, kardinalitas, dan kebutuhan informasi. |
+| `sql/01_struktur.sql` | Anggota 3 | Sebelas tabel dasar beserta kunci primer, kunci asing, dan constraint. |
+| `sql/02_data.sql` | Anggota 2 | Jumlah baris, urutan pengisian, dan keadaan khusus data contoh untuk sebelas tabel. |
+| `sql/03_view_trigger.sql` | Anggota 4 | Dua view dan empat trigger kuota, bentrok jadwal, serta stok obat. |
+| `sql/04_prosedur.sql` | Anggota 4 | Dua prosedur pendaftaran kunjungan dan pembayaran. |
+| `sql/05_keamanan.sql` | Anggota 5 | Tiga user klinik beserta hak aksesnya. |
+| `sql/06_indeks.sql` | Anggota 5 | Dua indeks untuk pencarian pasien dan rentang tanggal kunjungan. |
+| `sql/07_pengujian.sql` | Anggota 6 | Sepuluh uji perilaku untuk constraint, trigger, prosedur, view, dan hak akses. |
 
 ## Cara Pakai
 
@@ -77,9 +77,9 @@ berbeda. Port host bisa diganti lewat `KBD_PORT`. Berkas `07` otomatis memakai
 
 Paket ini sudah menyertakan `tools/run-sql.sh` dan pembungkus
 `tools/run-sql.cmd` untuk CMD/PowerShell. Tool `tools/reset-db.sh`,
-`tools/verify.sh`, dan `tools/demo-isolasi.sh` belum ada; ketiganya ditulis P5
+`tools/verify.sh`, dan `tools/demo-isolasi.sh` belum ada; ketiganya ditulis Anggota 6
 pada Fase F3 mengikuti
-[`../docs/panduan-P5-pengujian-rilis.md`](../docs/panduan-P5-pengujian-rilis.md).
+[`../docs/panduan-anggota-6-pengujian-rilis.md`](../docs/panduan-anggota-6-pengujian-rilis.md).
 
 ## Kriteria Selesai
 
@@ -94,4 +94,4 @@ Pekerjaan dinyatakan selesai jika seluruh kondisi berikut terpenuhi.
 
 - [`../docs/PRD.md`](../docs/PRD.md)
 - [`../docs/PEMBAGIAN-TUGAS.md`](../docs/PEMBAGIAN-TUGAS.md)
-- [`../docs/panduan-P5-pengujian-rilis.md`](../docs/panduan-P5-pengujian-rilis.md)
+- [`../docs/panduan-anggota-6-pengujian-rilis.md`](../docs/panduan-anggota-6-pengujian-rilis.md)

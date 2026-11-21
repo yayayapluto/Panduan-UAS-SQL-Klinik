@@ -1,13 +1,13 @@
-# Panduan P1: Studi Kasus, Kamus Data, dan ERD
+# Panduan Anggota 1: Kontrak, Studi Kasus, Kamus Data, dan ERD
 
 ## Peran
 
 Kamu adalah Anggota 1. Tiga pekerjaan besarmu: menetapkan bahan konseptual
 sebelum tabel dibuat, menggambar diagram relasi entitas, dan menulis bagian
 laporan yang menjelaskan proyek dari luar. Kamu juga pemeriksa terakhir daftar
-periksa buatan Anggota 5.
+periksa buatan Anggota 6.
 
-Pekerjaanmu menentukan pekerjaan empat orang lain. Kalau nama entitas atau
+Pekerjaanmu menentukan pekerjaan lima orang lain. Kalau nama entitas atau
 kardinalitas berubah setelah mereka mulai menulis SQL, seluruh berkas harus
 diperiksa ulang. Karena itu selesaikan Milestone 1 lebih dulu dan umumkan hasil
 kesepakatan di grup.
@@ -16,22 +16,26 @@ kesepakatan di grup.
 
 | Berkas atau bagian | Isi |
 |---|---|
-| Dokumen kesepakatan (grup atau `docs/kesepakatan.md`) | Delapan aturan bisnis, ruang lingkup, kamus data |
+| `sql/00-kesepakatan.sql` | Kesepakatan nama objek, aturan bisnis, kardinalitas, dan kebutuhan informasi |
+| `bukti/` | Keluaran nyata setiap skrip, dirapikan bersama Anggota 6 |
 | `panduan/gambar/erd.tex` atau gambar draw.io | Diagram relasi entitas |
 | `laporan/template-laporan.tex` bagian Bab I | Deskripsi basis data, studi kasus, ruang lingkup, pembagian peran |
 | `laporan/template-laporan.tex` bagian Bab III | Kesimpulan dan saran |
+| Sampul dan tabel peran laporan | Nama dan NIM keenam anggota beserta uraian tugas |
 | Bahan subbab perbandingan NoSQL | Pemetaan dokumen JSON dan alasan memilih relasional |
-| Video bagian konsep | Studi kasus, ruang lingkup, ERD, kesimpulan |
 
-Kamu tidak menulis berkas SQL. Nama tabel dan kolom yang kamu tetapkan dipakai
-oleh P3 dan P4, jadi perubahan nama harus lewat kesepakatan dengan mereka.
+Satu-satunya berkas SQL milikmu adalah `sql/00-kesepakatan.sql`; struktur dan
+data tetap milik anggota lain. Nama tabel dan kolom yang kamu tetapkan dipakai
+oleh Anggota 2 sampai Anggota 5, jadi perubahan nama harus lewat kesepakatan
+dengan mereka.
 
 ## Konteks untuk AI
 
 Proyek ini adalah basis data klinik pratama dengan MySQL 8.0 dan tepat sebelas
-tabel. Sebagai P1 kamu menulis studi kasus, kamus data, ERD, dan Bab I serta
-Bab III laporan. Kamu tidak menulis `sql/*.sql` dan tidak mengubah nama yang
-sudah ditetapkan `sql/01_struktur.sql`.
+tabel. Sebagai Anggota 1 kamu menulis `sql/00-kesepakatan.sql`, studi kasus,
+kamus data, ERD, dan Bab I serta Bab III laporan. Kamu tidak menyentuh
+`sql/01_struktur.sql` sampai `sql/07_pengujian.sql` dan tidak mengubah nama yang
+sudah ditetapkan di sana.
 
 Fakta yang wajib dipakai apa adanya:
 
@@ -118,7 +122,7 @@ kamus data. Setiap relasi diberi nama kerja, misalnya "poli memiliki dokter" dan
 | kunjungan ditagih pembayaran | 1 : 0..1 | id_kunjungan unik di pembayaran |
 | rekam medis diresepkan obat | M : N | tabel penghubung detail_resep |
 
-Tabel ini menjadi bahan Bab II dan dipakai P3 saat menulis skema. Jika P3
+Tabel ini menjadi bahan Bab II dan dipakai Anggota 3 saat menulis skema. Jika Anggota 3
 menemukan kardinalitas yang tidak cocok dengan SQL, kesepakatan diubah lebih
 dulu, bukan SQL-nya diam-diam.
 
@@ -176,9 +180,9 @@ Materi minggu 15 dinilai lewat pemetaan, bukan pembangunan server. Tulis:
 
 1. Bandingkan kamus data dengan `sql/01_struktur.sql`. Nama dan tipe harus sama.
 2. Bandingkan ERD dengan tabel kardinalitas. Tidak boleh ada relasi yang hilang.
-3. Periksa daftar periksa buatan P5. Setiap butir harus punya berkas bukti, bukan
-   hanya tanda centang.
-4. Rekam video bagian konsep: studi kasus, ruang lingkup, ERD, kesimpulan.
+3. Periksa daftar periksa buatan Anggota 6. Setiap butir harus punya berkas
+   bukti, bukan hanya tanda centang.
+4. Cocokkan sampul dan tabel peran laporan dengan pembagian tugas enam anggota.
 5. Perbarui Bab I dan Bab III setelah angka dari `bukti/` final.
 
 ## Checklist
@@ -191,8 +195,9 @@ Materi minggu 15 dinilai lewat pemetaan, bukan pembangunan server. Tulis:
 - [ ] Bab I memuat studi kasus, ruang lingkup, peran, kamus data.
 - [ ] Bab III memuat kesimpulan dan saran yang konkret.
 - [ ] Subbab NoSQL memuat satu dokumen JSON dan alasan memilih relasional.
-- [ ] Video bagian konsep sudah diunggah.
-- [ ] Daftar periksa P5 diperiksa dengan bukti.
+- [ ] `sql/00-kesepakatan.sql` memuat kamus data dan kardinalitas yang sama.
+- [ ] Sampul dan tabel peran laporan memuat keenam anggota.
+- [ ] Daftar periksa Anggota 6 diperiksa dengan bukti.
 
 ## Kesalahan yang Sering Terjadi
 
@@ -217,6 +222,7 @@ menambah tabel atau kolom baru, dan jangan mengubah nama yang sudah ada.
 
 ## Definition of Done
 
-Fase P1 selesai jika kamus data, ERD, dan tabel kardinalitas disepakati sebelum
-`skema-v1`; Bab I dan Bab III terisi dengan angka yang cocok dengan `bukti/`;
-subbab NoSQL ada; dan video bagian konsep bisa dibuka.
+Fase Anggota 1 selesai jika kamus data, ERD, dan tabel kardinalitas disepakati
+sebelum `skema-v1`; `sql/00-kesepakatan.sql` sudah dijalankan; Bab I dan Bab III
+terisi dengan angka yang cocok dengan `bukti/`; subbab NoSQL ada; dan PDF laporan
+terbangun dengan sampul serta tabel peran enam anggota.
