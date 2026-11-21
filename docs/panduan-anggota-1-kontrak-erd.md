@@ -212,7 +212,7 @@ tidak ada baris bertotal nol.
 - **Atomicity.** Total dihitung dan pembayaran disimpan dalam satu transaksi.
 - **Consistency.** Pemeriksaan pembayaran ganda berjalan sebelum insert.
 - **Isolation.** Sesi lain tidak melihat baris sebelum `COMMIT`; demo tingkat
-  isolasi dijalankan Rassya lewat `tools/demo-isolasi.sh`.
+  bukti isolasi dihasilkan dari `tools/demo-isolasi.sh` yang sudah tersedia.
 - **Durability.** Setelah `COMMIT`, baris tetap ada walaupun koneksi putus.
 
 ## Milestone 4: Bab I dan Bab III Laporan

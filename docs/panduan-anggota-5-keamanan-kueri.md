@@ -22,7 +22,7 @@ sebelum hak akses ditulis.
 | Bahan Bab II | Tabel hak akses dan tabel hasil query |
 
 Berkas `sql/06_indeks.sql` milik Kenzie, sedangkan `sql/07_pengujian.sql` dan
-`tools/` milik Rassya. Kalau pengujian menemukan hak akses atau query yang
+Folder `tools/` disediakan; kamu hanya memakainya. Kalau pengujian menemukan hak akses atau query yang
 salah, perbaiki berkas 05 dan kueri milikmu, bukan skrip pengujiannya.
 
 ## Prasyarat

@@ -35,13 +35,13 @@ Tangkapan layar boleh ditambahkan, tetapi tidak menggantikan keluaran teks.
 | Anggota | Peran | Berkas dan bagian milik | Panduan |
 |---|---|---|---|
 | Agit | Studi kasus, kontrak, prosedur, laporan | Studi kasus, delapan kebutuhan informasi, kamus data, ERD, `sql/00-kesepakatan.sql`, `sql/04_prosedur.sql` (prosedur `sp_daftar_kunjungan` dan `sp_bayar_kunjungan`), `bukti/`, Bab I dan III laporan, sampul, tabel peran | [Panduan 1](panduan-anggota-1-kontrak-erd.md) |
-| Dapa | Normalisasi dan data | `sql/02_data.sql`, dokumentasi 1NF sampai BCNF, tangkapan layar query dasar | [Panduan 2](panduan-anggota-2-normalisasi-data.md) |
-| Farras | Struktur dan transformasi | `sql/01_struktur.sql`, tabel transformasi, skema relasional, aljabar relasional | [Panduan 3](panduan-anggota-3-struktur-transformasi.md) |
-| Kenzie | View, trigger, dan indeks | `sql/03_view_trigger.sql`, `sql/06_indeks.sql` | [Panduan 4](panduan-anggota-4-view-trigger-prosedur.md) |
-| Kafka | Keamanan dan query | `sql/05_keamanan.sql`, sepuluh query Q1 sampai Q10, `bukti/10-kueri.txt` | [Panduan 5](panduan-anggota-5-keamanan-kueri.md) |
-| Rassya | Pengujian dan rilis | `sql/07_pengujian.sql`, `tools/`, `bukti/` pendamping uji, checklist, PDF | [Panduan 6](panduan-anggota-6-pengujian-rilis.md) |
+| Dapa | Normalisasi dan data | `sql/02_data.sql`, dokumentasi 1NF sampai BCNF, tangkapan layar query dasar, Bab normalisasi laporan | [Panduan 2](panduan-anggota-2-normalisasi-data.md) |
+| Farras | Struktur dan transformasi | `sql/01_struktur.sql`, tabel transformasi, skema relasional, aljabar relasional, Bab skema laporan | [Panduan 3](panduan-anggota-3-struktur-transformasi.md) |
+| Kenzie | View, trigger, dan indeks | `sql/03_view_trigger.sql`, `sql/06_indeks.sql`, Bab view/trigger/indeks laporan | [Panduan 4](panduan-anggota-4-view-trigger-prosedur.md) |
+| Kafka | Keamanan dan query | `sql/05_keamanan.sql`, sepuluh query Q1 sampai Q10, `bukti/10-kueri.txt`, Bab keamanan dan query laporan | [Panduan 5](panduan-anggota-5-keamanan-kueri.md) |
+| Rassya | Pengujian dan rilis | `sql/07_pengujian.sql`, Bab pengujian laporan, `bukti/` pendamping uji, checklist, PDF | [Panduan 6](panduan-anggota-6-pengujian-rilis.md) |
 
-Agit dan Farras paling siap menulis SQL, karena keduanya memegang
+Setiap anggota menulis berkas SQL-nya sendiri dan bagian laporan untuk modul itu; Agit menggabungkan. Agit dan Farras paling siap menulis SQL, karena keduanya memegang
 keputusan skema dan kontrak awal. Dapa dan Rassya boleh berasal dari
 anggota yang baru pertama memakai DBMS. Kenzie dan Kafka beban objeknya
 sedang, tetapi berkasnya bergantung pada `skema-v1`, jadi jangan menumpuk
@@ -78,7 +78,7 @@ dan tangkapan layar query dasar. Pekerjaan boleh paralel karena berkasnya
 berbeda, tetapi semuanya membaca `skema-v1`.
 
 **F3: Integrasi dan pengujian (`uji-hijau`), pemilik Rassya.** Rassya
-menulis `sql/07_pengujian.sql`, menjalankan `tools/verify.sh`, memperbarui
+menulis `sql/07_pengujian.sql` dan Bab pengujian laporan, menjalankan `tools/verify.sh`, memperbarui
 `bukti/`, dan menjalankan `demo-isolasi.sh`. Tag dipasang setelah 34 pemeriksaan
 lulus dan seluruh bukti diperbarui.
 
@@ -123,7 +123,7 @@ yang diperbaiki adalah skema, data, atau objeknya, bukan pemeriksaannya. Satu
 pengecualian: pemeriksaan yang memang salah tulis dan sudah disepakati Rassya
 serta pemilik berkas terkait.
 
-**Berkas bersama disepakati.** `README.md`, `docs/ai/`, `tools/`, dan
+**Berkas bersama disepakati.** `README.md`, `docs/ai/`, `tools/` (sudah tersedia, jangan ditulis ulang), dan
 `.gitignore` tidak dimiliki satu orang. Perubahan yang memengaruhi perintah kerja
 semua orang diumumkan di grup sebelum dikirim.
 

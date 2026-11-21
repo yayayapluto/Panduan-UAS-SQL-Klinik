@@ -210,7 +210,7 @@ Nama branch menyesuaikan peran, misalnya:
 | `feat/anggota-3-struktur` | Farras | `sql/01_struktur.sql`, transformasi | [Panduan 3](panduan-anggota-3-struktur-transformasi.md) |
 | `feat/anggota-4-objek` | Kenzie | `sql/03`, `sql/06` | [Panduan 4](panduan-anggota-4-view-trigger-prosedur.md) |
 | `feat/anggota-5-keamanan` | Kafka | `sql/05`, Q1 sampai Q10 | [Panduan 5](panduan-anggota-5-keamanan-kueri.md) |
-| `feat/anggota-6-uji` | Rassya | `sql/07`, `tools/`, `bukti/` | [Panduan 6](panduan-anggota-6-pengujian-rilis.md) |
+| `feat/anggota-6-uji` | Rassya | `sql/07`, `bukti/` | [Panduan 6](panduan-anggota-6-pengujian-rilis.md) |
 
 Satu branch boleh memuat beberapa commit, tetapi hanya menyentuh berkas milik
 branch itu.
