@@ -16,10 +16,7 @@ keluaran yang berbeda.
 | Berkas atau bagian | Isi |
 |---|---|
 | `sql/07_pengujian.sql` | Sepuluh skenario pengujian bernomor |
-| `tools/reset-db.sh` | Memuat ulang database dari nol |
-| `tools/verify.sh` | 34 pemeriksaan isi dan perilaku |
-| `tools/demo-isolasi.sh` | Bukti tingkat isolasi dan deadlock |
-| `tools/build.sh` | Membangun PDF panduan dan laporan |
+| Bagian laporan | Bab pengujian dan rilis, diserahkan ke Agit untuk digabung |
 | `bukti/` | Keluaran nyata setiap skrip, termasuk hasil uji |
 | Daftar periksa akhir | Bab 14 panduan, diperiksa dengan bukti |
 | PDF panduan dan laporan | Hasil build, siap dikumpulkan |
@@ -32,7 +29,8 @@ berkas itu, laporkan ke pemiliknya dengan pesan galat lengkap dan nomor baris.
 
 Proyek ini memakai MySQL 8.0, database `klinik_pratama`, dan skrip 01 sampai 06
 yang sudah dimuat lewat `reset-db.sh`. Sebagai Rassya kamu menulis
-`sql/07_pengujian.sql`, skrip `tools/`, dan berkas `bukti/`.
+`sql/07_pengujian.sql`, bagian laporan pengujian, dan berkas `bukti/`.
+Folder `tools/` sudah tersedia; cukup dijalankan, jangan ditulis ulang.
 
 Fakta yang wajib dipakai:
 
