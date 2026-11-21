@@ -169,6 +169,100 @@ Urutan tag: `kesepakatan-v1`, `skema-v1`, `objek-sql`, `uji-hijau`, `rilis`.
 6. Tarik perubahan dengan `git pull --rebase` sebelum push.
 7. Periksa `git status` sebelum commit agar berkas sementara tidak ikut.
 
+## Memproteksi Branch main
+
+Aturan nomor 5 di atas hanya jadi kebiasaan sampai proteksi dinyalakan. Setelah
+proteksi aktif, GitHub sendiri yang menolak tulisan langsung ke `main`, bukan
+lagi bergantung pada ingatan orang.
+
+Pemilik repo menjalankan sekali:
+
+```bash
+R=yayayapluto/Projek-UAS-SQL-Klinik
+gh api -X PUT repos/$R/branches/main/protection --input - <<'JSON'
+{
+  "required_status_checks": null,
+  "enforce_admins": true,
+  "required_pull_request_reviews": {
+    "dismiss_stale_reviews": false,
+    "require_code_owner_reviews": false,
+    "required_approving_review_count": 1
+  },
+  "restrictions": null,
+  "required_linear_history": false,
+  "allow_force_pushes": false,
+  "allow_deletions": false,
+  "block_creations": false,
+  "required_conversation_resolution": false,
+  "lock_branch": false,
+  "allow_fork_syncing": false
+}
+JSON
+```
+
+Arti setiap nilai yang dipakai:
+
+| Setelan | Nilai | Akibat |
+|---|---|---|
+| `required_pull_request_reviews` | 1 approval | PR tidak bisa merge sebelum disetujui anggota lain |
+| `enforce_admins` | `true` | pemilik pun tidak bisa menembus proteksi |
+| `allow_force_pushes` | `false` | `git push --force` ke `main` ditolak |
+| `allow_deletions` | `false` | branch `main` tidak bisa dihapus |
+| `required_status_checks` | `null` | tidak ada CI yang harus hijau |
+
+`enforce_admins` sengaja `true`. Tanpa itu pemilik repo masih bisa menulis
+langsung ke `main` lewat API atau push biasa, sehingga proteksi hanya berlaku
+untuk anggota lain.
+
+Periksa hasilnya:
+
+```bash
+gh api repos/$R/branches/main/protection \
+  --jq '{pr:(.required_pull_request_reviews!=null),approvals:.required_pull_request_reviews.required_approving_review_count,force:.allow_force_pushes.enabled,admin:.enforce_admins.enabled}'
+```
+
+Keluaran yang benar:
+
+```text
+{"pr":true,"approvals":1,"force":false,"admin":true}
+```
+
+Uji bahwa proteksi benar-benar bekerja, tanpa mengubah isi repo:
+
+```bash
+gh api -X PUT repos/$R/contents/.protection-test \
+  --input - <<'JSON'
+{"message":"tes proteksi","content":"dGVzdA==","branch":"main"}
+JSON
+```
+
+Harus gagal dengan pesan:
+
+```text
+Could not create file: Changes must be made through a pull request. (HTTP 409)
+```
+
+Kalau percobaan itu berhasil, proteksi belum menahan pemilik repo. Naikkan
+`enforce_admins` lalu ulangi. Berkas uji yang sempat masuk dihapus lewat
+`gh api -X DELETE repos/$R/contents/.protection-test -f message=... -f sha=... -f branch=main`.
+
+Dua konsekuensi yang harus diingat tim:
+
+1. GitHub tidak mengizinkan orang menyetujui pull request sendiri. Pemilik repo
+   tetap butuh satu anggota lain untuk menyetujui PR-nya.
+2. Bila suatu saat perlu merge cepat tanpa peninjau, turunkan syarat review
+   sementara, lalu kembalikan:
+
+```bash
+gh api -X PATCH repos/$R/branches/main/protection/required_pull_request_reviews \
+  --input - <<'JSON'
+{"required_approving_review_count": 0, "dismiss_stale_reviews": false}
+JSON
+```
+
+Angka pada perintah `PATCH` harus dikirim sebagai JSON, bukan `-f`. Memakai `-f`
+mengirim teks, dan GitHub menolaknya dengan `"1" is not an integer`.
+
 ## Pemeriksaan Sebelum Push
 
 Di repo kerja:
