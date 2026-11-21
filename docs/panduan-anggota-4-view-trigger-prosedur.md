@@ -1,11 +1,10 @@
-# Panduan P4: View, Trigger, Prosedur, Keamanan, dan Indeks
+# Panduan Anggota 4: View, Trigger, dan Prosedur
 
 ## Peran
 
-Kamu adalah Anggota 4. Kamu menulis empat berkas yang membuat database bukan
-hanya menyimpan data, tetapi juga menjaga aturan, menghitung tagihan, membatasi
-akses, dan mempercepat pencarian. Pekerjaanmu paling banyak berkasnya, jadi
-jangan menumpuk semuanya di minggu terakhir.
+Kamu adalah Anggota 4. Kamu menulis dua berkas yang membuat database bukan
+hanya menyimpan data, tetapi juga menjaga aturan dan menghitung tagihan:
+`sql/03_view_trigger.sql` dan `sql/04_prosedur.sql`.
 
 Kamu juga pemeriksa pertama skema buatan Anggota 3. Sebelum menulis view atau
 trigger, pastikan nama tabel dan kolom di `sql/01_struktur.sql` sudah sesuai PRD.
@@ -16,18 +15,17 @@ trigger, pastikan nama tabel dan kolom di `sql/01_struktur.sql` sudah sesuai PRD
 |---|---|
 | `sql/03_view_trigger.sql` | Dua view dan empat trigger |
 | `sql/04_prosedur.sql` | Dua stored procedure |
-| `sql/05_keamanan.sql` | Tiga pengguna dan hak akses |
-| `sql/06_indeks.sql` | Dua indeks beserta EXPLAIN sebelum dan sesudah |
-| Bahan Bab II | Penjelasan objek, pesan galat, dan tabel rencana eksekusi |
+| Bahan Bab II | Penjelasan view, trigger, prosedur, dan pesan galat |
 
-Skema bukan milikmu. Kalau butuh kolom baru untuk trigger atau indeks, kirim
-usulan ke P3. Jangan menambah kolom lewat `ALTER TABLE` di berkas 03 sampai 06.
+Hak akses, indeks, dan sepuluh query milik Anggota 5. Skema bukan milikmu. Kalau
+butuh kolom baru untuk trigger atau indeks, kirim usulan ke Anggota 3. Jangan
+menambah kolom lewat `ALTER TABLE` di berkas 03 dan 04.
 
 ## Konteks untuk AI
 
 Proyek ini memakai MySQL 8.0, database `klinik_pratama`, dan skema sebelas tabel
-pada `sql/01_struktur.sql`. Sebagai P4 kamu menulis view, trigger, prosedur, hak
-akses, dan indeks. Semua nama objek sudah ditetapkan dan tidak boleh diganti.
+pada `sql/01_struktur.sql`. Sebagai Anggota 4 kamu menulis view, trigger, dan
+prosedur. Semua nama objek sudah ditetapkan dan tidak boleh diganti.
 
 Nama yang wajib dipakai:
 
@@ -36,9 +34,6 @@ Nama yang wajib dipakai:
   `trg_cek_stok_obat`, `trg_kurangi_stok`.
 - Prosedur: `sp_daftar_kunjungan(p_id_pasien, p_id_jadwal)`,
   `sp_bayar_kunjungan(p_id_kunjungan, p_metode)`.
-- Pengguna: `petugas_klinik`, `dokter_klinik`, `admin_klinik`, kata sandi
-  `Klinik#2026`.
-- Indeks: `idx_pasien_nama`, `idx_kunjungan_tanggal`.
 
 Pesan galat yang diuji lewat `SIGNAL SQLSTATE '45000'` harus sama persis:
 `Kuota jadwal sudah penuh`, `Jadwal dokter bentrok`, `Stok obat tidak cukup`,
@@ -193,73 +188,10 @@ pembersihan karang gigi ditambah 5.000 harga sepuluh tablet Paracetamol.
 
 Pemanggilan kedua harus ditolak `Kunjungan sudah dibayar`.
 
-## Milestone 4: Hak Akses
+## Milestone 4: Transaksi pada Prosedur
 
-Tiga pengguna dengan kata sandi `Klinik#2026`.
-
-| Pengguna | Hak | Alasan |
-|---|---|---|
-| `petugas_klinik` | SELECT pada poli, dokter, jadwal_praktik; SELECT dan INSERT pada pasien, kunjungan | Meja depan melihat jadwal dan mendaftarkan pasien, tetapi tidak membuka rekam medis atau pembayaran |
-| `dokter_klinik` | SELECT pada semua tabel; INSERT dan UPDATE pada rekam_medis, detail_resep | Dokter membaca riwayat, lalu menulis hasil pemeriksaan dan resep |
-| `admin_klinik` | ALL PRIVILEGES pada `klinik_pratama.*` | Pengelola sistem memerlukan hak penuh |
-
-Skrip memakai `DROP USER IF EXISTS` agar bisa dijalankan ulang, lalu
-`FLUSH PRIVILEGES`, lalu `SHOW GRANTS` sebagai bukti.
-
-Bukti penolakan diambil dengan koneksi memakai akun petugas:
-
-```bash
-docker exec -i kbd-mysql mysql -upetugas_klinik -p'Klinik#2026' klinik_pratama \
-  -e "INSERT INTO obat (nama_obat,satuan,harga,stok) VALUES ('Uji Ilegal','Tablet',1000.00,1);"
-```
-
-Keluaran yang benar:
-
-```text
-ERROR 1142 (42000): INSERT command denied to user 'petugas_klinik'@'localhost' for table 'obat'
-```
-
-`verify.sh` bagian F memeriksa `SHOW GRANTS` dan penolakan ini.
-
-## Milestone 5: Dua Indeks
-
-### 5.1 `idx_pasien_nama`
-
-```sql
-EXPLAIN SELECT * FROM pasien WHERE nama_pasien LIKE 'A%';
-CREATE INDEX idx_pasien_nama ON pasien (nama_pasien);
-EXPLAIN SELECT * FROM pasien WHERE nama_pasien LIKE 'A%';
-```
-
-| Keadaan | type | key | rows |
-|---|---|---|---|
-| Sebelum | ALL | NULL | 10 |
-| Sesudah | range | idx_pasien_nama | 1 |
-
-### 5.2 `idx_kunjungan_tanggal`
-
-Indeks gabungan `(tanggal_kunjungan, id_jadwal)`. Kolom tanggal diletakkan lebih
-dulu karena dipakai sendirian pada penyaringan; kolom kedua berguna saat laporan
-menyaring tanggal sekaligus jadwal.
-
-| Keadaan | type | key | rows |
-|---|---|---|---|
-| Sebelum | ALL | NULL | 14 |
-| Sesudah | ref | idx_kunjungan_tanggal | 3 |
-
-### 5.3 Skrip harus bisa diulang
-
-`06_indeks.sql` membuang indeks lebih dulu jika sudah ada, memakai
-`information_schema.statistics` dan `PREPARE`. Tanpa ini, menjalankan
-`reset-db.sh` dua kali akan gagal karena nama indeks sudah dipakai.
-
-`verify.sh` bagian D membaca kolom `key` dari `EXPLAIN`. Jika isinya masih
-`NULL`, indeks tidak dipakai optimizer dan pemeriksaan gagal.
-
-## Milestone 6: Transaksi dan Isolasi
-
-Kamu menulis prosedur yang membuktikan ACID. Demo isolasi dijalankan P5 atau
-kamu sendiri memakai `tools/demo-isolasi.sh`.
+Kamu menulis prosedur yang membuktikan ACID. Demo isolasi dijalankan Anggota 6,
+atau kamu sendiri memakai `tools/demo-isolasi.sh`.
 
 - **Atomicity.** Total dihitung dan pembayaran disimpan dalam satu transaksi.
 - **Consistency.** Pemeriksaan pembayaran ganda berjalan sebelum insert.
@@ -304,11 +236,9 @@ sekali atau dua kali.
 - [ ] Pesan galat trigger sama persis dengan yang diuji.
 - [ ] Dua prosedur memakai transaksi dan `EXIT HANDLER`.
 - [ ] Pembayaran kedua ditolak.
-- [ ] Tiga pengguna ada; penolakan 1142 terbukti.
-- [ ] Dua indeks ada dan dipakai optimizer pada `EXPLAIN`.
-- [ ] Skrip 03 sampai 06 bisa dijalankan ulang.
-- [ ] `verify.sh` bagian C, D, dan F lulus.
-- [ ] Bahan Bab II memuat tabel rencana eksekusi dan potongan `SHOW GRANTS`.
+- [ ] Skrip 03 dan 04 bisa dijalankan ulang.
+- [ ] `verify.sh` bagian C dan E lulus.
+- [ ] Bahan Bab II memuat potongan view, trigger, dan prosedur.
 
 ## Kesalahan yang Sering Terjadi
 
@@ -317,11 +247,10 @@ sekali atau dua kali.
    sebelum ditolak.
 3. Menulis `DELIMITER` di dalam berkas yang dijalankan lewat `mysql -e`; opsi
    itu hanya dikenal klien interaktif.
-4. Memberi `GRANT ALL` kepada petugas agar tidak muncul galat, lalu pemeriksaan
-   hak akses gagal.
-5. Membuat indeks tanpa `EXPLAIN` sebelum, sehingga tidak ada bukti pengaruhnya.
-6. Menjalankan `06_indeks.sql` dua kali tanpa membuang indeks lebih dulu.
-7. Mengubah urutan kolom indeks gabungan tanpa memahami query yang dilayani.
+4. Menaruh pemeriksaan kuota di prosedur juga, sehingga pesan galat berbeda
+   dari trigger.
+5. Menyimpan status `Lunas` di prosedur pembayaran tanpa menghitung ulang total
+   dari tindakan dan obat.
 
 ## Prompt Siap Tempel
 
@@ -337,7 +266,7 @@ Jangan mengganti nama objek dan jangan menambah trigger baru.
 
 ## Definition of Done
 
-Fase P4 selesai jika dua view, empat trigger, dua prosedur, tiga pengguna, dan
-dua indeks berjalan dengan nama yang ditetapkan; `verify.sh` bagian C, D, dan F
-lulus; serta bukti `SHOW GRANTS`, penolakan 1142, dan `EXPLAIN` sudah disimpan
-untuk laporan.
+Fase Anggota 4 selesai jika dua view, empat trigger, dan dua prosedur berjalan
+dengan nama yang ditetapkan; bagian 03 dan 04 bisa dijalankan ulang lewat
+`reset-db.sh`; `verify.sh` bagian C dan E lulus; serta potongan view, trigger,
+prosedur, dan pesan galatnya sudah disimpan untuk laporan.

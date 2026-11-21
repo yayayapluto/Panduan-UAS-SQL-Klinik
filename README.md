@@ -1,10 +1,10 @@
 # Klinik Pratama: Paket Panduan Proyek Akhir
 
-Paket ini memandu satu tim berisi lima orang membangun basis data **Sistem
+Paket ini memandu satu tim berisi enam orang membangun basis data **Sistem
 Informasi Klinik Pratama** di MySQL 8.0.16 atau lebih baru. Pekerjaan mencakup
 seluruh siklus perancangan: studi kasus, kamus data, diagram relasi entitas,
 transformasi ke tabel, normalisasi sampai BCNF, SQL dasar dan lanjutan, transaksi,
-hak akses, indeks, pengujian, laporan, dan video demo.
+hak akses, indeks, pengujian, dan laporan.
 
 Tidak ada aplikasi Java, PHP, atau antarmuka grafis. Semua pekerjaan dijalankan
 lewat klien SQL, dan semua bukti berupa teks keluaran perintah. Aturan ini dipilih
@@ -21,17 +21,18 @@ berada di repositori kerja kelompok dan dipakai bersama dokumen di sini.
    kontrak objek basis data, kriteria penerimaan.
 2. [Project Overview](docs/PROJECT-OVERVIEW.md): gambaran singkat, struktur repo
    target, peta berkas, alur pemuatan data.
-3. [Pembagian Tugas](docs/PEMBAGIAN-TUGAS.md): lima peran, fase, tag, jadwal,
+3. [Pembagian Tugas](docs/PEMBAGIAN-TUGAS.md): enam peran, fase, tag, jadwal,
    definition of done.
 4. [Panduan 0: Git dan Lingkungan Kerja](docs/panduan-0-git-dan-lingkungan.md):
    menyiapkan Docker, MySQL, Workbench, MiKTeX, repo, dan build pertama, ditambah
    alur Git per anggota.
-5. [Panduan P1: Studi Kasus, Kamus Data, dan ERD](docs/panduan-P1-studi-kasus-erd.md)
-6. [Panduan P2: Normalisasi dan Data Contoh](docs/panduan-P2-normalisasi-data.md)
-7. [Panduan P3: Struktur Tabel dan Transformasi](docs/panduan-P3-struktur-transformasi.md)
-8. [Panduan P4: View, Trigger, Prosedur, Keamanan, Indeks](docs/panduan-P4-view-trigger-prosedur.md)
-9. [Panduan P5: Pengujian, Bukti, dan Rilis](docs/panduan-P5-pengujian-rilis.md)
-10. [Panduan GitHub Bersama](PANDUAN-GITHUB.md): repo privat untuk panduan, repo
+5. [Panduan Anggota 1: Kontrak, Studi Kasus, dan ERD](docs/panduan-anggota-1-kontrak-erd.md)
+6. [Panduan Anggota 2: Normalisasi dan Data Contoh](docs/panduan-anggota-2-normalisasi-data.md)
+7. [Panduan Anggota 3: Struktur Tabel dan Transformasi](docs/panduan-anggota-3-struktur-transformasi.md)
+8. [Panduan Anggota 4: View, Trigger, dan Prosedur](docs/panduan-anggota-4-view-trigger-prosedur.md)
+9. [Panduan Anggota 5: Keamanan dan Indeks](docs/panduan-anggota-5-keamanan-indeks.md)
+10. [Panduan Anggota 6: Pengujian, Bukti, dan Rilis](docs/panduan-anggota-6-pengujian-rilis.md)
+11. [Panduan GitHub Bersama](PANDUAN-GITHUB.md): repo privat untuk panduan, repo
     publik untuk tim, undangan anggota, branch, pull request, dan push.
 
 Urutannya disengaja. Baca PRD lebih dulu karena di sana semua nama tabel, nama
@@ -49,7 +50,7 @@ Pasang satu kali di komputer masing-masing.
 | Docker Desktop | Menjalankan MySQL 8.0 tanpa memasang server | `winget install --id Docker.DockerDesktop -e` |
 | MySQL Workbench | Klien SQL untuk memeriksa tabel dan menjalankan query | `winget install --id Oracle.MySQLWorkbench -e` |
 | draw.io | Menggambar ulang diagram bila perlu | `winget install --id JGraph.Draw -e` |
-| MiKTeX (hanya Anggota 5) | Membangun PDF panduan dan laporan | `winget install --id MiKTeX.MiKTeX -e` |
+| MiKTeX (Anggota 1 dan Anggota 6) | Membangun PDF laporan dan panduan | `winget install --id MiKTeX.MiKTeX -e` |
 
 Setelah MiKTeX terpasang, aktifkan pemasangan paket otomatis supaya build tidak
 berhenti menunggu dialog:
@@ -107,6 +108,7 @@ Hasilnya `panduan/utama.pdf` dan `laporan/template-laporan.pdf`.
 
 | Lokasi | Isi |
 |---|---|
+| `sql/00-kesepakatan.sql` | Kesepakatan awal tim: aturan kerja dan pengecekan lingkungan |
 | `sql/01_struktur.sql` | Membuat database dan sebelas tabel |
 | `sql/02_data.sql` | Data contoh, setiap tabel minimal lima baris |
 | `sql/03_view_trigger.sql` | Dua view dan empat trigger |
@@ -128,15 +130,17 @@ Hasilnya `panduan/utama.pdf` dan `laporan/template-laporan.pdf`.
 
 | Anggota | Berkas milik | Panduan | Minggu target |
 |---|---|---|---|
-| Anggota 1 | Studi kasus, kamus data, ERD, Bab I dan III laporan | [P1](docs/panduan-P1-studi-kasus-erd.md) | Minggu 1 dan 4 |
-| Anggota 2 | `sql/02_data.sql`, dokumentasi normalisasi, tangkapan layar query dasar | [P2](docs/panduan-P2-normalisasi-data.md) | Minggu 2 |
-| Anggota 3 | `sql/01_struktur.sql`, transformasi, aljabar relasional | [P3](docs/panduan-P3-struktur-transformasi.md) | Minggu 2 |
-| Anggota 4 | `sql/03` sampai `sql/06` | [P4](docs/panduan-P4-view-trigger-prosedur.md) | Minggu 3 |
-| Anggota 5 | `sql/07_pengujian.sql`, demo isolasi, video, build PDF, daftar periksa | [P5](docs/panduan-P5-pengujian-rilis.md) | Minggu 3 dan 4 |
+| Anggota 1 | Studi kasus, kamus data, ERD, `sql/00-kesepakatan.sql`, `bukti/`, Bab I dan III laporan | [Anggota 1](docs/panduan-anggota-1-kontrak-erd.md) | Minggu 1 dan 4 |
+| Anggota 2 | `sql/02_data.sql`, dokumentasi normalisasi, tangkapan layar query dasar | [Anggota 2](docs/panduan-anggota-2-normalisasi-data.md) | Minggu 2 |
+| Anggota 3 | `sql/01_struktur.sql`, transformasi, skema relasional, aljabar relasional | [Anggota 3](docs/panduan-anggota-3-struktur-transformasi.md) | Minggu 2 |
+| Anggota 4 | `sql/03_view_trigger.sql`, `sql/04_prosedur.sql` | [Anggota 4](docs/panduan-anggota-4-view-trigger-prosedur.md) | Minggu 3 |
+| Anggota 5 | `sql/05_keamanan.sql`, `sql/06_indeks.sql`, sepuluh query Q1–Q10, `bukti/10-kueri.txt` | [Anggota 5](docs/panduan-anggota-5-keamanan-indeks.md) | Minggu 3 |
+| Anggota 6 | `sql/07_pengujian.sql`, `tools/`, `bukti/` pendamping uji, PDF panduan | [Anggota 6](docs/panduan-anggota-6-pengujian-rilis.md) | Minggu 3 dan 4 |
 
 Review silang: Anggota 3 memeriksa hasil Anggota 4, Anggota 4 memeriksa hasil
-Anggota 3, Anggota 5 memeriksa hasil Anggota 1 dan Anggota 2, Anggota 1 memeriksa
-daftar periksa buatan Anggota 5. Rincian alurnya ada di
+Anggota 3, Anggota 2 memeriksa hasil Anggota 5, Anggota 6 memeriksa hasil
+Anggota 1 dan Anggota 2, Anggota 5 memeriksa hasil Anggota 6, dan Anggota 1
+memeriksa daftar periksa buatan Anggota 6. Rincian alurnya ada di
 [Pembagian Tugas](docs/PEMBAGIAN-TUGAS.md).
 
 ## Alur Kerja Harian

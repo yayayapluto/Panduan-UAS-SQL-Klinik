@@ -1,4 +1,4 @@
-# Panduan P3: Struktur Tabel dan Transformasi
+# Panduan Anggota 3: Struktur Tabel dan Transformasi
 
 ## Peran
 
@@ -7,7 +7,7 @@ Pekerjaanmu: menerjemahkan ERD menjadi sebelas tabel, memasang kunci dan
 constraint, lalu menjelaskan transformasi serta aljabar relasional untuk laporan.
 Kamu juga pemeriksa pertama hasil Anggota 4.
 
-Kalau kamu terlambat, P2 tidak bisa mengisi data dan P4 tidak bisa menulis view
+Kalau kamu terlambat, Anggota 2 tidak bisa mengisi data dan Anggota 4 tidak bisa menulis view
 atau trigger. Selesaikan Milestone 1 dan 2 lebih dulu, umumkan bahwa `skema-v1`
 sudah siap, baru lanjut ke penjelasan laporan.
 
@@ -18,14 +18,14 @@ sudah siap, baru lanjut ke penjelasan laporan.
 | `sql/01_struktur.sql` | Database dan sebelas tabel, kunci, constraint |
 | Dokumentasi transformasi | Tabel aturan transformasi, skema relasional, daftar kunci tamu |
 | Bahan aljabar relasional | Contoh sigma, pi, join, dan agregasi untuk tiga kebutuhan |
-| Catatan review P4 | Nama tabel dan kolom pada view serta trigger |
+| Catatan review Anggota 4 | Nama tabel dan kolom pada view serta trigger |
 
-Kamu tidak menulis `sql/02_data.sql` dan tidak menyentuh berkas P4.
+Kamu tidak menulis `sql/02_data.sql` dan tidak menyentuh berkas Anggota 4.
 
 ## Konteks untuk AI
 
 Proyek ini adalah basis data klinik pratama dengan MySQL 8.0.16 atau lebih baru.
-Sebagai P3 kamu menulis `sql/01_struktur.sql`, yang membuat database dan tepat
+Sebagai Anggota 3 kamu menulis `sql/01_struktur.sql`, yang membuat database dan tepat
 sebelas tabel dengan InnoDB, `utf8mb4`, serta aturan `ON DELETE RESTRICT ON UPDATE
 CASCADE` pada semua kunci tamu.
 
@@ -180,7 +180,7 @@ pada aljabar menentukan urutan `JOIN` dan `GROUP BY` di SQL.
    constraint harus identik.
 2. Periksa tidak ada kunci tamu yatim:
    `bash tools/verify.sh` bagian B.
-3. Periksa review P4: setiap nama tabel dan kolom pada view serta trigger harus
+3. Periksa review Anggota 4: setiap nama tabel dan kolom pada view serta trigger harus
    ada di skema. Salah ketik nama kolom biasanya baru terlihat saat view dibuat.
 4. Setelah `verify.sh` bagian A dan B lulus, minta tag `skema-v1` dipasang.
 5. Setelah tag, perubahan nama hanya lewat kesepakatan.
@@ -197,7 +197,7 @@ pada aljabar menentukan urutan `JOIN` dan `GROUP BY` di SQL.
 - [ ] `verify.sh` bagian A dan B lulus.
 - [ ] Tabel transformasi dan daftar kunci tamu ada di laporan.
 - [ ] Tiga contoh aljabar relasional ada.
-- [ ] Review P4 mencatat nama yang tidak cocok.
+- [ ] Review Anggota 4 mencatat nama yang tidak cocok.
 
 ## Kesalahan yang Sering Terjadi
 
@@ -224,7 +224,7 @@ atau kolom baru.
 
 ## Definition of Done
 
-Fase P3 selesai jika `reset-db.sh` membuat 11 tabel tanpa galat, `verify.sh`
+Fase Anggota 3 selesai jika `reset-db.sh` membuat 11 tabel tanpa galat, `verify.sh`
 bagian A dan B lulus, seluruh constraint yang tercantum di PRD terpasang,
 dokumentasi transformasi dan aljabar relasional siap dipakai di Bab II, dan tag
 `skema-v1` sudah dipasang.

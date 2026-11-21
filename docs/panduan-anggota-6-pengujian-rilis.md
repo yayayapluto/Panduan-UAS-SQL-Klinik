@@ -1,10 +1,11 @@
-# Panduan P5: Pengujian, Bukti, dan Rilis
+# Panduan Anggota 6: Pengujian, Bukti, dan Rilis
 
 ## Peran
 
-Kamu adalah Anggota 5, sekaligus koordinator rilis. Pekerjaanmu membuat orang
+Kamu adalah Anggota 6, sekaligus koordinator rilis. Pekerjaanmu membuat orang
 lain bisa membuktikan bahwa proyek ini bekerja: sepuluh skenario pengujian, 34
-pemeriksaan otomatis, berkas bukti, video, PDF, dan daftar periksa akhir.
+pemeriksaan otomatis, berkas bukti, PDF laporan dan panduan, serta daftar periksa
+akhir.
 
 Kamu juga pemeriksa hasil Anggota 1 dan Anggota 2. Review-mu berbasis eksekusi,
 bukan pendapat: jalankan ulang skrip pada salinan repositori, lalu laporkan
@@ -19,18 +20,18 @@ keluaran yang berbeda.
 | `tools/verify.sh` | 34 pemeriksaan isi dan perilaku |
 | `tools/demo-isolasi.sh` | Bukti tingkat isolasi dan deadlock |
 | `tools/build.sh` | Membangun PDF panduan dan laporan |
-| `bukti/` | Keluaran nyata setiap skrip |
+| `bukti/` | Keluaran nyata setiap skrip, termasuk hasil uji |
 | Daftar periksa akhir | Bab 14 panduan, diperiksa dengan bukti |
-| Video dan PDF | Rekaman tiap anggota, hasil build |
+| PDF panduan dan laporan | Hasil build, siap dikumpulkan |
 
-Kamu tidak menyunting skema, data contoh, view, trigger, atau prosedur. Kalau
-pengujian menemukan kesalahan di berkas itu, laporkan ke pemiliknya dengan pesan
-galat lengkap dan nomor baris.
+Kamu tidak menyunting skema, data contoh, view, trigger, prosedur, hak akses,
+indeks, atau query milik anggota lain. Kalau pengujian menemukan kesalahan di
+berkas itu, laporkan ke pemiliknya dengan pesan galat lengkap dan nomor baris.
 
 ## Konteks untuk AI
 
 Proyek ini memakai MySQL 8.0, database `klinik_pratama`, dan skrip 01 sampai 06
-yang sudah dimuat lewat `reset-db.sh`. Sebagai P5 kamu menulis
+yang sudah dimuat lewat `reset-db.sh`. Sebagai Anggota 6 kamu menulis
 `sql/07_pengujian.sql`, skrip `tools/`, dan berkas `bukti/`.
 
 Fakta yang wajib dipakai:
@@ -144,7 +145,7 @@ galat 1213 saat deadlock. Simpan keluaran ke `bukti/isolasi.txt`.
 Kedua tingkat isolasi harus terlihat berbeda. Kalau hasilnya sama, sesi kedua
 mungkin tidak benar-benar berjalan bersamaan.
 
-## Milestone 4: Laporan, Video, dan PDF
+## Milestone 4: Laporan dan PDF
 
 ### 4.1 Susunan laporan
 
@@ -160,32 +161,7 @@ Kerangka ada di `laporan/template-laporan.tex`. Setiap bagian diberi komentar
 Jangan menyalin angka dari panduan tanpa mencocokkannya dengan `bukti/`.
 Panduan dan database harus menampilkan angka yang sama.
 
-### 4.2 Video per anggota
-
-Durasi satu sampai enam menit, sesuai bagian yang dikerjakan.
-
-| Anggota | Isi rekaman |
-|---|---|
-| Anggota 1 | Studi kasus, ruang lingkup, kamus data, ERD, kesimpulan |
-| Anggota 2 | Normalisasi tiap tahap, data contoh, hasil query dasar |
-| Anggota 3 | Struktur tabel, constraint, transformasi, aljabar relasional |
-| Anggota 4 | View, trigger dengan demo penolakan, prosedur, hak akses, indeks dan `EXPLAIN` |
-| Anggota 5 | Sepuluh pengujian, demo isolasi dan deadlock, `verify.sh`, build PDF |
-
-Urutan demo enam menit yang efisien:
-
-1. `reset-db.sh`, tunjukkan 11 tabel.
-2. Workbench, tampilkan diagram dan satu tabel berisi data.
-3. Q3 dan Q4, tunjukkan sisa kuota 0 pada jadwal 7.
-4. Uji 4, tunjukkan pesan kuota penuh.
-5. Panggil `sp_bayar_kunjungan`, lalu panggil lagi untuk pesan sudah dibayar.
-6. `demo-isolasi.sh`, tunjukkan perbedaan isolasi dan galat 1213.
-7. `SHOW GRANTS` dan penolakan 1142.
-8. `verify.sh` yang seluruhnya lulus.
-
-Rekam setelah `reset-db.sh`, bukan setelah percobaan sebelumnya.
-
-### 4.3 Build PDF
+### 4.2 Build PDF
 
 ```bash
 bash tools/build.sh
@@ -210,10 +186,10 @@ Periksa satu per satu. Setiap butir harus punya bukti.
 - [ ] Tiga pengguna ada, penulisan oleh petugas ditolak 1142.
 - [ ] Dua indeks dipakai optimizer.
 - [ ] `bukti/` memuat keluaran setiap skrip.
+- [ ] `bukti/10-kueri.txt` dari Anggota 5 cocok dengan tabel acuan PRD §7.
 - [ ] PDF panduan tanpa rujukan menggantung dan daftar isi lengkap.
 - [ ] PDF laporan terbangun, sampul berisi nama dan NIM.
 - [ ] Repositori bersih dari `.aux`, `.log`, `.toc`.
-- [ ] Video setiap anggota bisa dibuka.
 
 ## Kesalahan yang Sering Terjadi
 
@@ -223,14 +199,14 @@ Periksa satu per satu. Setiap butir harus punya bukti.
    bertambah.
 4. Melampirkan hanya sebagian konteks saat bertanya ke AI, lalu menerima jawaban
    dengan nama tabel karangan.
-5. Lupa `reset-db.sh` sebelum merekam video.
+5. Lupa `reset-db.sh` sebelum mengambil bukti baru.
 6. Membangun PDF sebelum isi laporan final, lalu lupa membangun ulang.
 7. Menyimpan keluaran `verify.sh` yang lama setelah skema berubah.
 
 ## Prompt Siap Tempel
 
 ```text
-Saya Anggota 5. Saya sedang menguji basis data klinik pratama. Berikut aturan
+Saya Anggota 6. Saya sedang menguji basis data klinik pratama. Berikut aturan
 umum proyek, sql/07_pengujian.sql, dan keluaran verify.sh terakhir.
 
 Periksa apakah sepuluh uji sudah mencakup seluruh aturan bisnis dan apakah blok
@@ -241,7 +217,6 @@ memperbaikinya. Jangan mengubah data contoh atau melonggarkan pemeriksaan.
 
 ## Definition of Done
 
-Fase P5 selesai jika sepuluh uji memberi hasil sesuai kontrak, `verify.sh`
+Fase Anggota 6 selesai jika sepuluh uji memberi hasil sesuai kontrak, `verify.sh`
 melaporkan 34 lulus dan 0 gagal, seluruh `bukti/` diperbarui dari database hasil
-`reset-db.sh`, kedua PDF terbangun, video setiap anggota bisa dibuka, dan daftar
-periksa akhir terisi dengan bukti.
+`reset-db.sh`, kedua PDF terbangun, dan daftar periksa akhir terisi dengan bukti.

@@ -40,7 +40,7 @@ Rincian angka, nama kolom, dan kriteria penerimaan ada di [PRD](PRD.md).
 | Docker Desktop | Menjalankan MySQL 8.0 tanpa memasang server. Cek dengan `docker --version`. |
 | MySQL Workbench | Klien SQL untuk memeriksa tabel dan menjalankan query. |
 | Bash | Git Bash atau WSL untuk menjalankan skrip `tools/*.sh`. |
-| MiKTeX | Hanya untuk Anggota 5 yang membangun PDF. Bisa diganti Overleaf. |
+| MiKTeX | Dipakai Anggota 1 untuk laporan dan Anggota 6 untuk PDF panduan. Bisa diganti Overleaf. |
 
 Tidak ada dependensi bahasa pemrograman. Yang dijalankan hanya klien `mysql` di
 dalam container, `pdflatex` untuk PDF, dan skrip shell untuk pemeriksaan.
@@ -83,18 +83,19 @@ berbeda, sedangkan `tools/` dan `bukti/` dirawat bersama.
 ├── .gitignore
 ├── Guidebook KBD UAS.pdf                  (materi dan ketentuan tugas)
 ├── sql/
-│   ├── 01_struktur.sql                    (P3)
-│   ├── 02_data.sql                        (P2)
-│   ├── 03_view_trigger.sql                (P4)
-│   ├── 04_prosedur.sql                    (P4)
-│   ├── 05_keamanan.sql                    (P4)
-│   ├── 06_indeks.sql                      (P4)
-│   └── 07_pengujian.sql                   (P5)
+│   ├── 00-kesepakatan.sql                 (Anggota 1)
+│   ├── 01_struktur.sql                    (Anggota 3)
+│   ├── 02_data.sql                        (Anggota 2)
+│   ├── 03_view_trigger.sql                (Anggota 4)
+│   ├── 04_prosedur.sql                    (Anggota 4)
+│   ├── 05_keamanan.sql                    (Anggota 5)
+│   ├── 06_indeks.sql                      (Anggota 5)
+│   └── 07_pengujian.sql                   (Anggota 6)
 ├── tools/
-│   ├── reset-db.sh                        (P5, dipakai semua)
-│   ├── verify.sh                          (P5)
-│   ├── demo-isolasi.sh                    (P5)
-│   └── build.sh                           (P5)
+│   ├── reset-db.sh                        (Anggota 6, dipakai semua)
+│   ├── verify.sh                          (Anggota 6)
+│   ├── demo-isolasi.sh                    (Anggota 6)
+│   └── build.sh                           (Anggota 6)
 ├── bukti/
 │   ├── 00-reset.txt
 │   ├── 05_keamanan.txt
@@ -115,18 +116,19 @@ berbeda, sedangkan `tools/` dan `bukti/` dirawat bersama.
 └── docs/
     └── ai/
         ├── 00-aturan-umum.md
-        └── anggota-1.md ... anggota-5.md
+        └── anggota-1.md ... anggota-6.md
 ```
 
 ## Peta Berkas dan Pemilik
 
 | Berkas atau bagian | Pemilik | Isi |
 |---|---|---|
-| Studi kasus, kamus data, ERD, Bab I dan III laporan | Anggota 1 | Bahan konseptual dan dokumen akhir |
-| `sql/02_data.sql`, dokumentasi normalisasi | Anggota 2 | Data contoh dan bukti 1NF sampai BCNF |
-| `sql/01_struktur.sql`, transformasi, aljabar relasional | Anggota 3 | Skema fisik dan penjelasan transformasi |
-| `sql/03_view_trigger.sql`, `04_prosedur.sql`, `05_keamanan.sql`, `06_indeks.sql` | Anggota 4 | Objek basis data dan pengaturan akses |
-| `sql/07_pengujian.sql`, `tools/`, `bukti/`, video, PDF | Anggota 5 | Pengujian, bukti, dan rilis |
+| Studi kasus, kamus data, ERD, `sql/00-kesepakatan.sql`, `bukti/`, Bab I dan III laporan | Anggota 1 | Bahan konseptual, kesepakatan awal, dan dokumen akhir |
+| `sql/02_data.sql`, dokumentasi normalisasi 1NF sampai BCNF, tangkapan layar query dasar | Anggota 2 | Data contoh dan bukti normalisasi |
+| `sql/01_struktur.sql`, tabel transformasi, skema relasional, aljabar relasional | Anggota 3 | Skema fisik dan penjelasan transformasi |
+| `sql/03_view_trigger.sql`, `sql/04_prosedur.sql` | Anggota 4 | Dua view, empat trigger, dua prosedur |
+| `sql/05_keamanan.sql`, `sql/06_indeks.sql`, sepuluh query Q1–Q10, `bukti/10-kueri.txt` | Anggota 5 | Tiga pengguna, bukti `ERROR 1142`, dua indeks dan `EXPLAIN`, sepuluh query |
+| `sql/07_pengujian.sql`, `tools/`, `bukti/` pendamping uji, PDF panduan | Anggota 6 | Sepuluh skenario uji, skrip bantu, bukti uji, dan rilis |
 
 Berkas bersama yang tidak dimiliki satu orang: `README.md`, `docs/ai/`, dan
 `.gitignore`. Perubahannya disepakati di grup sebelum dikirim.
