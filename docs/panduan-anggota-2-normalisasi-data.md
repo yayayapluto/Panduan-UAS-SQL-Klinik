@@ -1,12 +1,12 @@
-# Panduan Anggota 2: Normalisasi dan Data Contoh
+# Panduan Dapa: Normalisasi dan Data Contoh
 
 ## Peran
 
-Kamu adalah Anggota 2. Pekerjaanmu menjelaskan mengapa skema berbentuk seperti
+Kamu adalah Dapa. Pekerjaanmu menjelaskan mengapa skema berbentuk seperti
 sekarang, lalu mengisi database dengan data yang memenuhi syarat penilaian dan
 kebutuhan pengujian. Kamu juga menulis tangkapan layar query dasar untuk laporan.
 
-Kamu tidak menentukan nama tabel. Nama itu sudah ditetapkan Anggota 1 dan Anggota 3. Tugasmu
+Kamu tidak menentukan nama tabel. Nama itu sudah ditetapkan Agit dan Farras. Tugasmu
 membuktikan bahwa sebelas tabel memang hasil normalisasi, bukan kumpulan tabel
 yang dibuat asal.
 
@@ -19,14 +19,14 @@ yang dibuat asal.
 | Tangkapan layar query dasar | `SELECT`, `UPDATE`, `DELETE`, dan hasilnya |
 | Bahan Bab II | Tabel perubahan tiap tahap normalisasi |
 
-Berkas `sql/01_struktur.sql` milik Anggota 3. Kalau data tidak bisa masuk karena
-constraint, laporkan ke Anggota 3 dengan pesan galat lengkap. Jangan menghapus
+Berkas `sql/01_struktur.sql` milik Farras. Kalau data tidak bisa masuk karena
+constraint, laporkan ke Farras dengan pesan galat lengkap. Jangan menghapus
 constraint atau mengubah urutan tabel sendiri.
 
 ## Konteks untuk AI
 
 Proyek ini memakai MySQL 8.0, database `klinik_pratama`, sebelas tabel, dan data
-contoh bertanggal Agustus sampai Oktober 2026. Sebagai Anggota 2 kamu menulis
+contoh bertanggal Agustus sampai Oktober 2026. Sebagai Dapa kamu menulis
 `sql/02_data.sql` dan dokumentasi normalisasi dari 1NF sampai BCNF.
 
 Aturan yang tidak boleh dilanggar:
@@ -230,7 +230,7 @@ kebiasaan mencegahnya:
 2. Jalankan `bash tools/verify.sh` dan pastikan `Lulus: 34   Gagal: 0`.
 3. Periksa Q4, Q5, dan Q8 memakai `bukti/10-kueri.txt`.
 4. Perbarui `bukti/00-reset.txt` dan `bukti/verify.txt` jika keluarannya berubah.
-5. Serahkan berkas ke reviewer Anggota 6. Reviewer menjalankan ulang, bukan membaca
+5. Serahkan berkas ke reviewer Rassya. Reviewer menjalankan ulang, bukan membaca
    saja.
 
 ## Checklist
@@ -259,7 +259,7 @@ kebiasaan mencegahnya:
 ## Prompt Siap Tempel
 
 ```text
-Saya Anggota 2. Saya sedang menulis sql/02_data.sql dan dokumentasi normalisasi.
+Saya Dapa. Saya sedang menulis sql/02_data.sql dan dokumentasi normalisasi.
 Berikut aturan umum proyek, skema sql/01_struktur.sql, dan potongan berkas saya.
 
 Periksa dua hal: (1) apakah urutan INSERT sudah dari induk ke anak dan setiap
@@ -270,6 +270,6 @@ Belum Lunas. Jangan mengubah nama kolom atau constraint.
 
 ## Definition of Done
 
-Fase Anggota 2 selesai jika dokumentasi normalisasi menjelaskan perpindahan setiap
+Fase Dapa selesai jika dokumentasi normalisasi menjelaskan perpindahan setiap
 kelompok data, `sql/02_data.sql` memenuhi seluruh jumlah dan keadaan khusus,
 `verify.sh` lulus, dan tangkapan layar query dasar siap dipakai di Bab II.

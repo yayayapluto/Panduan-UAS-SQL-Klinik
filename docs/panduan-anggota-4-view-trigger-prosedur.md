@@ -1,12 +1,12 @@
-# Panduan Anggota 4: View, Trigger, dan Indeks
+# Panduan Kenzie: View, Trigger, dan Indeks
 
 ## Peran
 
-Kamu adalah Anggota 4. Kamu menulis dua berkas yang membuat database bukan
+Kamu adalah Kenzie. Kamu menulis dua berkas yang membuat database bukan
 hanya menyimpan data, tetapi juga menjaga aturan dan memakai data dengan cepat:
 `sql/03_view_trigger.sql` dan `sql/06_indeks.sql`.
 
-Kamu juga pemeriksa pertama skema buatan Anggota 3. Sebelum menulis view,
+Kamu juga pemeriksa pertama skema buatan Farras. Sebelum menulis view,
 trigger, atau indeks, pastikan nama tabel dan kolom di `sql/01_struktur.sql`
 sudah sesuai PRD.
 
@@ -19,15 +19,15 @@ sudah sesuai PRD.
 | `bukti/06_indeks.txt` | Keluaran EXPLAIN sebelum dan sesudah |
 | Bahan Bab II | Penjelasan view, trigger, indeks, dan rencana eksekusi |
 
-Prosedur `sql/04_prosedur.sql` milik Anggota 1. Hak akses dan sepuluh query
-milik Anggota 5. Skema bukan milikmu. Kalau butuh kolom baru untuk trigger atau
-indeks, kirim usulan ke Anggota 3. Jangan menambah kolom lewat `ALTER TABLE` di
+Prosedur `sql/04_prosedur.sql` milik Agit. Hak akses dan sepuluh query
+milik Kafka. Skema bukan milikmu. Kalau butuh kolom baru untuk trigger atau
+indeks, kirim usulan ke Farras. Jangan menambah kolom lewat `ALTER TABLE` di
 berkas 03 dan 06.
 
 ## Konteks untuk AI
 
 Proyek ini memakai MySQL 8.0, database `klinik_pratama`, dan skema sebelas tabel
-pada `sql/01_struktur.sql`. Sebagai Anggota 4 kamu menulis view, trigger, dan
+pada `sql/01_struktur.sql`. Sebagai Kenzie kamu menulis view, trigger, dan
 indeks. Semua nama objek sudah ditetapkan dan tidak boleh diganti.
 
 Nama yang wajib dipakai:
@@ -206,7 +206,7 @@ docker exec -i kbd-mysql mysql -uroot -pkbd klinik_pratama \
 ## Prompt Siap Tempel
 
 ```text
-Saya Anggota 4. Saya sedang menulis sql/03_view_trigger.sql dan
+Saya Kenzie. Saya sedang menulis sql/03_view_trigger.sql dan
 sql/06_indeks.sql. Berikut aturan umum proyek, skema, dan potongan berkas saya.
 
 Periksa: (1) setiap nama tabel dan kolom yang dipakai ada di skema, (2) trigger
@@ -218,7 +218,7 @@ menambah trigger atau indeks baru.
 
 ## Definition of Done
 
-Fase Anggota 4 selesai jika dua view, empat trigger, dan dua indeks berjalan
+Fase Kenzie selesai jika dua view, empat trigger, dan dua indeks berjalan
 dengan nama yang ditetapkan; bagian 03 dan 06 bisa dijalankan ulang lewat
 `reset-db.sh`; `verify.sh` bagian C, D, dan E lulus; serta potongan view,
 trigger, indeks, dan pesan galatnya sudah disimpan untuk laporan.

@@ -17,7 +17,7 @@ winget install --id JGraph.Draw -e
 winget install --id MiKTeX.MiKTeX -e
 ```
 
-MiKTeX hanya wajib untuk Anggota 6. Anggota lain boleh melewatinya dan memakai
+MiKTeX hanya wajib untuk Rassya. Anggota lain boleh melewatinya dan memakai
 PDF hasil build yang sudah ada.
 
 Setelah MiKTeX terpasang, aktifkan pemasangan paket otomatis supaya kompilasi
@@ -60,7 +60,7 @@ git clone https://github.com/<akun>/klinik-kbd.git
 cd klinik-kbd
 ```
 
-Kalau repositori belum ada, Anggota 6 membuatnya dan mengundang lima anggota
+Kalau repositori belum ada, Rassya membuatnya dan mengundang lima anggota
 lain sebagai collaborator. Nama repositori bebas, asalkan konsisten di laporan.
 
 ## 4. Buat container MySQL
@@ -205,12 +205,12 @@ Nama branch menyesuaikan peran, misalnya:
 
 | Branch | Pemilik | Berkas | Panduan |
 |---|---|---|---|
-| `feat/anggota-1-erd` | Anggota 1 | `sql/00-kesepakatan.sql`, `sql/04_prosedur.sql`, ERD, kamus data, Bab I dan III | [Panduan 1](panduan-anggota-1-kontrak-erd.md) |
-| `feat/anggota-2-data` | Anggota 2 | `sql/02_data.sql`, dokumentasi normalisasi | [Panduan 2](panduan-anggota-2-normalisasi-data.md) |
-| `feat/anggota-3-struktur` | Anggota 3 | `sql/01_struktur.sql`, transformasi | [Panduan 3](panduan-anggota-3-struktur-transformasi.md) |
-| `feat/anggota-4-objek` | Anggota 4 | `sql/03`, `sql/06` | [Panduan 4](panduan-anggota-4-view-trigger-prosedur.md) |
-| `feat/anggota-5-keamanan` | Anggota 5 | `sql/05`, Q1 sampai Q10 | [Panduan 5](panduan-anggota-5-keamanan-kueri.md) |
-| `feat/anggota-6-uji` | Anggota 6 | `sql/07`, `tools/`, `bukti/` | [Panduan 6](panduan-anggota-6-pengujian-rilis.md) |
+| `feat/anggota-1-erd` | Agit | `sql/00-kesepakatan.sql`, `sql/04_prosedur.sql`, ERD, kamus data, Bab I dan III | [Panduan 1](panduan-anggota-1-kontrak-erd.md) |
+| `feat/anggota-2-data` | Dapa | `sql/02_data.sql`, dokumentasi normalisasi | [Panduan 2](panduan-anggota-2-normalisasi-data.md) |
+| `feat/anggota-3-struktur` | Farras | `sql/01_struktur.sql`, transformasi | [Panduan 3](panduan-anggota-3-struktur-transformasi.md) |
+| `feat/anggota-4-objek` | Kenzie | `sql/03`, `sql/06` | [Panduan 4](panduan-anggota-4-view-trigger-prosedur.md) |
+| `feat/anggota-5-keamanan` | Kafka | `sql/05`, Q1 sampai Q10 | [Panduan 5](panduan-anggota-5-keamanan-kueri.md) |
+| `feat/anggota-6-uji` | Rassya | `sql/07`, `tools/`, `bukti/` | [Panduan 6](panduan-anggota-6-pengujian-rilis.md) |
 
 Satu branch boleh memuat beberapa commit, tetapi hanya menyentuh berkas milik
 branch itu.
@@ -260,18 +260,18 @@ Review silang yang berlaku:
 
 | Pemeriksa | Memeriksa |
 |---|---|
-| Anggota 3 | hasil Anggota 4, terutama nama tabel dan kolom pada view serta trigger |
-| Anggota 4 | hasil Anggota 3, terutama kunci tamu dan constraint |
-| Anggota 5 | hasil Anggota 3, terutama nama kolom yang dipakai query Q1 sampai Q10 |
-| Anggota 6 | hasil Anggota 1 dan Anggota 2, apakah ERD sesuai skema dan data memenuhi aturan |
-| Anggota 1 | daftar periksa Anggota 6, setiap butir harus punya bukti |
+| Farras | hasil Kenzie, terutama nama tabel dan kolom pada view serta trigger |
+| Kenzie | hasil Farras, terutama kunci tamu dan constraint |
+| Kafka | hasil Farras, terutama nama kolom yang dipakai query Q1 sampai Q10 |
+| Rassya | hasil Agit dan Dapa, apakah ERD sesuai skema dan data memenuhi aturan |
+| Agit | daftar periksa Rassya, setiap butir harus punya bukti |
 
 Review dilakukan dengan menjalankan `reset-db.sh` dan `verify.sh` pada salinan
 hasil pekerjaan, bukan dengan membaca kode saja.
 
 ### 9.4 Gabungkan dan tag
 
-Setelah disetujui, pengirim PR atau Anggota 6 menggabungkan ke `dev`. Tag dipasang pada
+Setelah disetujui, pengirim PR atau Rassya menggabungkan ke `dev`. Tag dipasang pada
 `dev` setelah fase selesai:
 
 ```bash

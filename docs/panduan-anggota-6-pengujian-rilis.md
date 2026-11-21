@@ -1,13 +1,13 @@
-# Panduan Anggota 6: Pengujian, Bukti, dan Rilis
+# Panduan Rassya: Pengujian, Bukti, dan Rilis
 
 ## Peran
 
-Kamu adalah Anggota 6, sekaligus koordinator rilis. Pekerjaanmu membuat orang
+Kamu adalah Rassya, sekaligus koordinator rilis. Pekerjaanmu membuat orang
 lain bisa membuktikan bahwa proyek ini bekerja: sepuluh skenario pengujian, 34
 pemeriksaan otomatis, berkas bukti, PDF laporan dan panduan, serta daftar periksa
 akhir.
 
-Kamu juga pemeriksa hasil Anggota 1 dan Anggota 2. Review-mu berbasis eksekusi,
+Kamu juga pemeriksa hasil Agit dan Dapa. Review-mu berbasis eksekusi,
 bukan pendapat: jalankan ulang skrip pada salinan repositori, lalu laporkan
 keluaran yang berbeda.
 
@@ -31,7 +31,7 @@ berkas itu, laporkan ke pemiliknya dengan pesan galat lengkap dan nomor baris.
 ## Konteks untuk AI
 
 Proyek ini memakai MySQL 8.0, database `klinik_pratama`, dan skrip 01 sampai 06
-yang sudah dimuat lewat `reset-db.sh`. Sebagai Anggota 6 kamu menulis
+yang sudah dimuat lewat `reset-db.sh`. Sebagai Rassya kamu menulis
 `sql/07_pengujian.sql`, skrip `tools/`, dan berkas `bukti/`.
 
 Fakta yang wajib dipakai:
@@ -186,7 +186,7 @@ Periksa satu per satu. Setiap butir harus punya bukti.
 - [ ] Tiga pengguna ada, penulisan oleh petugas ditolak 1142.
 - [ ] Dua indeks dipakai optimizer.
 - [ ] `bukti/` memuat keluaran setiap skrip.
-- [ ] `bukti/10-kueri.txt` dari Anggota 5 cocok dengan tabel acuan PRD §7.
+- [ ] `bukti/10-kueri.txt` dari Kafka cocok dengan tabel acuan PRD §7.
 - [ ] PDF panduan tanpa rujukan menggantung dan daftar isi lengkap.
 - [ ] PDF laporan terbangun, sampul berisi nama dan NIM.
 - [ ] Repositori bersih dari `.aux`, `.log`, `.toc`.
@@ -206,7 +206,7 @@ Periksa satu per satu. Setiap butir harus punya bukti.
 ## Prompt Siap Tempel
 
 ```text
-Saya Anggota 6. Saya sedang menguji basis data klinik pratama. Berikut aturan
+Saya Rassya. Saya sedang menguji basis data klinik pratama. Berikut aturan
 umum proyek, sql/07_pengujian.sql, dan keluaran verify.sh terakhir.
 
 Periksa apakah sepuluh uji sudah mencakup seluruh aturan bisnis dan apakah blok
@@ -217,6 +217,6 @@ memperbaikinya. Jangan mengubah data contoh atau melonggarkan pemeriksaan.
 
 ## Definition of Done
 
-Fase Anggota 6 selesai jika sepuluh uji memberi hasil sesuai kontrak, `verify.sh`
+Fase Rassya selesai jika sepuluh uji memberi hasil sesuai kontrak, `verify.sh`
 melaporkan 34 lulus dan 0 gagal, seluruh `bukti/` diperbarui dari database hasil
 `reset-db.sh`, kedua PDF terbangun, dan daftar periksa akhir terisi dengan bukti.
